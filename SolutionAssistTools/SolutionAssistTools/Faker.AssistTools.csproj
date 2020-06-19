@@ -79,6 +79,10 @@
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="favicon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="VM\AppLtmPermissions.vm">
       <IncludeInVSIX>true</IncludeInVSIX>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
