@@ -1,0 +1,117 @@
+﻿<Window x:Class="Faker.AssistTools.Wpf.EntityListWpf"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Faker.AssistTools.Wpf"
+        mc:Ignorable="d"
+        Title="欢迎使用SOEI.Faker团队ABP开发辅助程序" Height="602.274" Width="1024" WindowStartupLocation="CenterScreen" ShowInTaskbar="False" ResizeMode="NoResize">
+    <Grid Margin="10,0,4,167">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+
+        <GroupBox x:Name="groupBox" Header="基础配置" Height="72" VerticalAlignment="Top" Margin="10,0,0,0"/>
+        <ListView Name="ListmuLu" Margin="10,77,0,0" HorizontalAlignment="Left" Width="984" VerticalAlignment="Top" Height="313"  >
+            <ListView.View>
+                <GridView>
+
+                    <GridViewColumn Header="EditDto" Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <WrapPanel HorizontalAlignment="Center">
+                                    <CheckBox  IsChecked="{Binding Path=UseEditDto}"  Margin="30,0,0,0"    HorizontalAlignment="Center">
+                                    </CheckBox>
+                                </WrapPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="EditDto" Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <WrapPanel HorizontalAlignment="Center">
+                                    <CheckBox  IsChecked="{Binding Path=UseListDto}"  Margin="30,0,0,0"    HorizontalAlignment="Center">
+                                    </CheckBox>
+                                </WrapPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="数据类型" Width="100" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=TypeName}" Foreground="Red"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="字段名称" Width="200">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding Path=Name}" Height="25" Width="180" VerticalContentAlignment="Center"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="中文名称" Width="200">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding Path=CName}" Height="25" Width="180" VerticalContentAlignment="Center"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="最小长度" Width="120">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding Path=MinLength}" Height="25" Width="100" VerticalContentAlignment="Center"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="最大长度" Width="120">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding Path=MaxLength}" Height="25" Width="100" VerticalContentAlignment="Center"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                </GridView>
+            </ListView.View>
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBox Text="{Binding Path=Name}" Height="25" Width="100"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+
+
+            <!--<ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <WrapPanel>
+                            <Label Content="所扣分数："/>
+                            <TextBlock Text="{Binding Path=Score}"/>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <Label Content="有效状态："/>
+                            <TextBox Text="{Binding Path=Status}" Height="23" Width="100"/>
+                            <ComboBox  Height="23" Width="100" SelectedValue="{Binding Path=Status, Mode=OneWay}">
+                                <ComboBoxItem Content="有效"/>
+                                <ComboBoxItem Content="无效"/>
+                            </ComboBox>
+                        </WrapPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>-->
+        </ListView>
+
+        <Button x:Name="btnSubmit" Content="开始生成" HorizontalAlignment="Left" Height="36" Margin="836,0,0,-45" VerticalAlignment="Bottom" Width="75" Grid.Row="1" Click="btnSubmit_Click"/>
+        <Button x:Name="butCancal" Content="取消" HorizontalAlignment="Left" Height="36" Margin="919,0,0,-45" VerticalAlignment="Bottom" Width="75" Grid.Row="1" Click="butCancal_Click"/>
+        <Button x:Name="butPre" Content="上一步" HorizontalAlignment="Left" Height="36" Margin="10,0,0,-45" VerticalAlignment="Bottom" Width="75" Grid.Row="1" Click="butPre_Click"/>
+        <Line Stretch="Fill" Stroke="Black" X2="1" VerticalAlignment="Bottom" Grid.Row="1" Margin="0,0,0,-67"/>
+    </Grid>
+</Window>

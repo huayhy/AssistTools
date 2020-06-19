@@ -1,0 +1,22 @@
+﻿#set($NameSpace=$model.NameSpace)
+#set($SolutionName=$model.SolutionName)
+#set($EntityName=$model.EntityName)
+#set($SolutionTxt=$model.SolutionTxt)
+#set($BaseName=$model.SolutionTxt)
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace ${SolutionName}.Authorization
+{
+	/// <summary>
+    /// 默认权限变量名称
+    /// </summary>
+	public class AppLtmPermissions
+	{
+		public const string Pages = "Pages";
+		public const string Pages_Administration = "Pages.Administration";
+
+	}
+}

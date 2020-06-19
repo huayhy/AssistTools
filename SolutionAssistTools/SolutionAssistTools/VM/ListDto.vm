@@ -1,0 +1,24 @@
+﻿
+
+using Abp.Application.Services.Dto;
+using Abp.Domain.Entities;
+
+namespace ${model.NameSpace}.Dtos
+{	
+	/// <summary>
+	/// ${model.EntityName}的列表DTO
+	/// <see cref=""/>
+	/// </summary>
+    public class ${model.EntityName}ListDto  ${model.InheritDto}
+    {
+#foreach($item in $model.list)##
+
+		/// <summary>
+		/// ${item.CName}
+		/// </summary>
+		public ${item.TypeName} ${item.Name} { get; set; }
+#end##        
+		
+		/* 这里创建自己的代码 */
+	}
+}

@@ -1,0 +1,14 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using ${model.EntityNameSpace};
+using ${model.SolutionName};
+namespace ${model.NameSpace}
+{
+    public class ${model.EntityName}Mapper : IEntityTypeConfiguration<${model.EntityName}>
+    {
+        public void Configure(EntityTypeBuilder<${model.EntityName}> builder)
+        {
+            builder.ToTable(AppCoreConst.SchemaNames.TABLE_PREFIX + "${model.EntityName}s");
+        }
+    }
+}

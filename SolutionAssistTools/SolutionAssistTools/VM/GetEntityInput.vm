@@ -1,0 +1,34 @@
+﻿#set($NameSpace=$model.NameSpace)
+#set($SolutionName=$model.SolutionName)
+#set($EntityName=$model.EntityName)
+#set($SolutionTxt=$model.SolutionTxt)
+#set($BaseName=$model.SolutionTxt)
+
+using Abp.Runtime.Validation;
+using ${SolutionName}.Dtos;
+using ${NameSpace};
+
+namespace ${NameSpace}.Dtos
+{
+	/// <summary>
+	/// 获取的传入参数Dto
+	/// </summary>
+    public class Get${EntityName}sInput : PagedSortedAndFilteredInputDto, IShouldNormalize
+    {
+
+        /// <summary>
+        /// 正常化排序使用
+        /// </summary>
+        public void Normalize()
+        {
+            if (string.IsNullOrEmpty(Sorting))
+            {
+                Sorting = "Id";
+            }
+        }
+		
+		//// 自定义编码开始
+				
+		//// 自定义编码结束
+    }
+}

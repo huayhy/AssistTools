@@ -1,0 +1,55 @@
+﻿#set($NameSpace=$model.NameSpace)
+#set($SolutionName=$model.SolutionName)
+#set($EntityName=$model.EntityName)
+#set($SolutionTxt=$model.SolutionTxt)
+
+namespace ${SolutionName}.Authorization
+{
+	/// <summary>
+    /// 定义系统的权限名称的字符串常量。
+    /// <see cref="${EntityName}AuthorizationProvider" />中对权限的定义.
+    ///</summary>
+	public static  class ${EntityName}Permissions
+	{
+		/// <summary>
+		/// 【${EntityName}】权限节点
+		///</summary>
+		public const string Node = "Pages.${EntityName}";
+
+		/// <summary>
+		/// 【${EntityName}】查询授权
+		///</summary>
+		public const string Query = "Pages.${EntityName}.Query";
+
+		/// <summary>
+		/// 【${EntityName}】创建权限
+		///</summary>
+		public const string Create = "Pages.${EntityName}.Create";
+
+		/// <summary>
+		/// 【${EntityName}】修改权限
+		///</summary>
+		public const string Edit = "Pages.${EntityName}.Edit";
+
+		/// <summary>
+		/// 【${EntityName}】删除权限
+		///</summary>
+		public const string Delete = "Pages.${EntityName}.Delete";
+
+        /// <summary>
+		/// 【${EntityName}】批量删除权限
+		///</summary>
+		public const string BatchDelete = "Pages.${EntityName}.BatchDelete";
+
+		/// <summary>
+		/// 【${EntityName}】导出Excel
+		///</summary>
+		public const string ExportExcel="Pages.${EntityName}.ExportExcel";
+
+		/* 以下可以自定义权限 */ 
+		
+         
+    }
+
+}
+

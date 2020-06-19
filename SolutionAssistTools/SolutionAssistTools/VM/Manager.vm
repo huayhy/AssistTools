@@ -1,0 +1,121 @@
+﻿
+
+using Abp.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+
+namespace $model.NameSpace
+{
+    /// <summary>
+    /// 领域服务层一个模块的核心业务逻辑
+    ///</summary>
+    public class ${model.EntityName}Manager :DomainServiceBase, IMemberManager
+    {
+		
+		private readonly IRepository<${model.EntityName},long> _${model.EntityName.ToLower()}Repository;
+
+		/// <summary>
+		/// 【$model.EntityName】的构造方法
+		/// 通过构造函数注册服务到依赖注入容器中
+		///</summary>
+	    public ${model.EntityName}Manager(IRepository<${model.EntityName}, long> ${model.EntityName.ToLower()}Repository)	{
+			_${model.EntityName.ToLower()}Repository =  ${model.EntityName.ToLower()}Repository;
+		}
+
+		#region -------------------------------------------------辅助工具生成---------------------------------------------- 
+        /// <summary>
+        /// 【$model.EntityName】返回表达式数的实体信息即IQueryable类型
+        /// </summary>
+        /// <returns>IQueryable</returns>
+        public IQueryable<${model.EntityName}> Query()
+        {
+            return _${model.EntityName.ToLower()}Repository.GetAll();
+        }
+        /// <summary>
+        /// 【$model.EntityName】返回即IQueryable类型的实体，不包含EF Core跟踪标记
+        /// </summary>
+        /// <returns>IQueryable</returns>
+        public IQueryable<${model.EntityName}> QueryAsNoTracking()
+        {
+            return _${model.EntityName.ToLower()}Repository.GetAll().AsNoTracking();
+        }
+        /// <summary>
+        /// 【$model.EntityName】根据Id查询实体信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>实体</returns>
+        public async Task<${model.EntityName}> FindByIdAsync(long id)
+        {
+            var entity = await _${model.EntityName.ToLower()}Repository.GetAsync(id);
+            return entity;
+        }
+        /// <summary>
+        /// 【$model.EntityName】检查实体是否存在
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>bool</returns>
+        public async Task<bool> IsExistAsync(long id)
+        {
+            var result = await _${model.EntityName.ToLower()}Repository.GetAll().AnyAsync(a => a.Id == id);
+            return result;
+        }
+		/// <summary>
+        /// 【$model.EntityName】创建实体
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<${model.EntityName}> CreateAsync(${model.EntityName} entity)
+        {
+            entity.Id = await _${model.EntityName.ToLower()}Repository.InsertAndGetIdAsync(entity);
+            return entity;
+        }
+        /// <summary>
+        /// 【$model.EntityName】更新实体
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task UpdateAsync(${model.EntityName} entity)
+        {
+            await _${model.EntityName.ToLower()}Repository.UpdateAsync(entity);
+        }
+        /// <summary>
+        /// 【$model.EntityName】删除实体
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task DeleteAsync(long id)
+        {
+            //TODO:删除前的逻辑判断，是否允许删除
+            await _${model.EntityName.ToLower()}Repository.DeleteAsync(id);
+        }
+        /// <summary>
+        /// 【$model.EntityName】批量删除
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task BatchDelete(List<long> input)
+        {
+            //TODO:删除前的逻辑判断，是否允许删除
+            await _${model.EntityName.ToLower()}Repository.DeleteAsync(a => input.Contains(a.Id));
+        }
+	    #endregion
+
+
+        #region -------------------------------------------------用户自定义------------------------------------------------
+		/*请在此扩展领域服务接口*/
+		#endregion
+			
+		
+
+
+
+		 
+		  
+		 
+
+	}
+}

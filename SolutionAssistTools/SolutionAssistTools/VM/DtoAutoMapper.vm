@@ -1,0 +1,30 @@
+﻿#set($NameSpace=$model.NameSpace)
+#set($SolutionName=$model.SolutionName)
+#set($EntityName=$model.EntityName)
+#set($SolutionTxt=$model.SolutionTxt)
+
+using AutoMapper;
+using $NameSpace;
+using ${NameSpace}.Dtos;
+
+namespace ${SolutionName}.CustomDtoAutoMapper
+{
+
+	/// <summary>
+    /// 配置Member的AutoMapper映射
+	/// 前往 <see cref="${SolutionTxt}ApplicationModule"/>的AbpAutoMapper配置方法下添加以下代码段
+    /// ${EntityName}DtoAutoMapper.CreateMappings(configuration);
+    /// </summary>
+	internal static class ${EntityName}DtoAutoMapper
+    {
+        public static void CreateMappings(IMapperConfigurationExpression configuration)
+        {
+            configuration.CreateMap <${EntityName},${EntityName}ListDto>();
+            configuration.CreateMap <${EntityName}ListDto,${EntityName}>();
+
+            configuration.CreateMap <${EntityName}EditDto,${EntityName}>();
+            configuration.CreateMap <${EntityName},${EntityName}EditDto>();
+					
+        }
+	}
+}

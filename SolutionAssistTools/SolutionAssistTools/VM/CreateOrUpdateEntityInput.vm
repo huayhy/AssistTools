@@ -1,0 +1,23 @@
+﻿#set($NameSpace=$model.NameSpace)
+#set($SolutionName=$model.SolutionName)
+#set($EntityName=$model.EntityName)
+#set($SolutionTxt=$model.SolutionTxt)
+
+using Abp.Application.Services.Dto;
+using Abp.Domain.Entities;
+using System.ComponentModel.DataAnnotations;
+
+namespace ${NameSpace}.Dtos
+{	
+	
+    /// <summary>
+	/// ${EntityName}的列表DTO
+	/// </summary>
+	public class CreateOrUpdate${EntityName}Input
+    {
+        [Required]
+        public ${EntityName}EditDto ${EntityName} { get; set; }
+
+		/* 这里创建自己的代码 */
+    }
+}

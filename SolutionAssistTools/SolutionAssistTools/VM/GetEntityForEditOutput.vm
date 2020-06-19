@@ -1,0 +1,22 @@
+﻿#set($NameSpace=$model.NameSpace)
+#set($SolutionName=$model.SolutionName)
+#set($EntityName=$model.EntityName)
+#set($SolutionTxt=$model.SolutionTxt)
+
+using Abp.Application.Services.Dto;
+using Abp.Domain.Entities;
+using System.ComponentModel.DataAnnotations;
+
+namespace ${NameSpace}.Dtos
+{	
+	/// <summary>
+	/// 读取可编辑的Dto
+	/// </summary>
+    public class Get${EntityName}ForEditOutput
+    {
+
+        public ${EntityName}EditDto ${EntityName} { get; set; }
+
+		/* 这里创建自己的代码 */
+    }
+}
