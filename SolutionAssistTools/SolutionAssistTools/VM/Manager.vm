@@ -13,7 +13,7 @@ namespace $model.NameSpace
     /// <summary>
     /// 领域服务层一个模块的核心业务逻辑
     ///</summary>
-    public class ${model.EntityName}Manager :DomainServiceBase, IMemberManager
+    public class ${model.EntityName}Manager :DomainServiceBase, I${model.EntityName}Manager
     {
 		
 		private readonly IRepository<${model.EntityName},long> _${model.EntityName.ToLower()}Repository;

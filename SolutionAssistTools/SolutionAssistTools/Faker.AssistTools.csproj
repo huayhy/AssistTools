@@ -48,11 +48,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="FolderCommand.cs" />
+    <Compile Include="Helper\AssistFolderHelper.cs" />
     <Compile Include="Helper\AssistHelper.cs" />
     <Compile Include="Helper\GenerateHelper.cs" />
     <Compile Include="Layers\ApplicationLayerManager.cs" />
     <Compile Include="Layers\BaseLayerManager.cs" />
     <Compile Include="Layers\DomainLayerManager.cs" />
+    <Compile Include="Layers\EntityManager.cs" />
     <Compile Include="Layers\FrameworkCoreManager.cs" />
     <Compile Include="Layers\ILayerManager.cs" />
     <Compile Include="Modules\APP.cs" />
@@ -60,6 +63,7 @@
     <Compile Include="Modules\BaseEntity.cs" />
     <Compile Include="Modules\ClassEntity.cs" />
     <Compile Include="Modules\EntityConfiguration.cs" />
+    <Compile Include="Modules\EntityInfo.cs" />
     <Compile Include="Modules\FiledEntity.cs" />
     <Compile Include="Modules\FileEntity.cs" />
     <Compile Include="Modules\FrameworkCore.cs" />
@@ -70,6 +74,9 @@
     <Compile Include="TWAssistCommand.cs" />
     <Compile Include="Wpf\AssistToolsWpf.xaml.cs">
       <DependentUpon>AssistToolsWpf.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Wpf\NewEntityListWpf.xaml.cs">
+      <DependentUpon>NewEntityListWpf.xaml</DependentUpon>
     </Compile>
     <Compile Include="Wpf\EntityListWpf.xaml.cs">
       <DependentUpon>EntityListWpf.xaml</DependentUpon>
@@ -83,6 +90,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Content Include="Resources\FolderCommand.png" />
     <Content Include="VM\AppLtmPermissions.vm">
       <IncludeInVSIX>true</IncludeInVSIX>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -167,6 +175,10 @@
       <IncludeInVSIX>true</IncludeInVSIX>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="VM\Entity.vm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
@@ -198,6 +210,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Wpf\AssistToolsWpf.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Wpf\NewEntityListWpf.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

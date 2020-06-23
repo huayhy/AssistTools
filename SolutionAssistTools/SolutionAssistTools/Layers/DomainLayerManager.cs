@@ -173,7 +173,6 @@ namespace Faker.AssistTools.Layers
                 SolutionName = FileEntity.Solution.Name,
                 InheritDto = FileEntity.ClassEntity.InheritDto,
                 SolutionTxt = FileEntity.SubName,
-
             };
 
             fileName = "AppLtmPermissions.cs";

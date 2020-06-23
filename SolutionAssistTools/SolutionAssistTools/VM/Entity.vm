@@ -1,0 +1,43 @@
+﻿
+#set($NameSpace=$model.NameSpace)
+#set($EntityName=$model.EntityName)
+#set($List=$model.List)
+#set($Inherit=$model.Inherit)
+
+
+using Abp.Domain.Entities;
+using Abp.Domain.Entities.Auditing;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace ${NameSpace}
+{	
+	/// <summary>
+	/// ${EntityName}
+	/// </summary>
+    public class ${EntityName} :  ${Inherit}
+    {
+		#region -------------------------------------------------实体属性---------------------------------------------- 
+
+#foreach($item in $List)##
+
+		/// <summary>
+		/// ${item.CName}
+		/// </summary>
+		public ${item.TypeName} ${item.Name} { get; set; }
+#end##        
+		#endregion
+
+		#region -------------------------------------------------用户定义---------------------------------------------- 
+		/* 这里创建自己的代码 */
+		#endregion
+
+		#region -------------------------------------------------导航属性---------------------------------------------- 
+
+		#endregion
+		
+
+
+	}
+}

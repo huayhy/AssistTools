@@ -22,6 +22,11 @@ namespace Faker.AssistTools.Modules
     {
         //重写数据源规则一个文件实体需要包含 解决方案 应用服务 领域服务 基础设施 4个对象的数据
 
+       /// <summary>
+       /// 实体信息
+       /// </summary>
+        public EntityInfo EntityInfo { get; set; }
+
         /// <summary>
         /// 解决方案相关数据
         /// </summary>
@@ -43,7 +48,7 @@ namespace Faker.AssistTools.Modules
         public ProjectCore ProjectCore { get; set; }
 
         /// <summary>
-        /// 解析出来的字段实体
+        /// 解析出来的字段实体（或者新增的实体）
         /// </summary>
         public ICollection<FiledEntity> Fields { get; set; }
 

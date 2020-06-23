@@ -20,17 +20,17 @@ namespace ${SolutionName}.Authorization
     {
         private readonly bool _isMultiTenancyEnabled;
 
-		public MemberAuthorizationProvider()
+		public ${EntityName}AuthorizationProvider()
 		{
 
 		}
 
-        public MemberAuthorizationProvider(bool isMultiTenancyEnabled)
+        public ${EntityName}AuthorizationProvider(bool isMultiTenancyEnabled)
         {
             _isMultiTenancyEnabled = isMultiTenancyEnabled;
         }
 
-        public MemberAuthorizationProvider(IMultiTenancyConfig multiTenancyConfig)
+        public ${EntityName}AuthorizationProvider(IMultiTenancyConfig multiTenancyConfig)
         {
             _isMultiTenancyEnabled = multiTenancyConfig.IsEnabled;
         }
@@ -42,12 +42,12 @@ namespace ${SolutionName}.Authorization
 
 			var administration = pages.Children.FirstOrDefault(p => p.Name == AppLtmPermissions.Pages_Administration) ?? pages.CreateChildPermission(AppLtmPermissions.Pages_Administration, L("Administration"));
 
-			var permission = administration.CreateChildPermission(MemberPermissions.Node , L("Member"));
-			permission.CreateChildPermission(${EntityName}Permissions.Query, L("QueryMember"));
-			permission.CreateChildPermission(${EntityName}Permissions.Create, L("CreateMember"));
-			permission.CreateChildPermission(${EntityName}Permissions.Edit, L("EditMember"));
-			permission.CreateChildPermission(${EntityName}Permissions.Delete, L("DeleteMember"));
-			permission.CreateChildPermission(${EntityName}Permissions.BatchDelete, L("BatchDeleteMember"));
+			var permission = administration.CreateChildPermission(${EntityName}Permissions.Node , L("${EntityName}"));
+			permission.CreateChildPermission(${EntityName}Permissions.Query, L("Query${EntityName}"));
+			permission.CreateChildPermission(${EntityName}Permissions.Create, L("Create${EntityName}"));
+			permission.CreateChildPermission(${EntityName}Permissions.Edit, L("Edit${EntityName}"));
+			permission.CreateChildPermission(${EntityName}Permissions.Delete, L("Delete${EntityName}"));
+			permission.CreateChildPermission(${EntityName}Permissions.BatchDelete, L("BatchDelete${EntityName}"));
 			permission.CreateChildPermission(${EntityName}Permissions.ExportExcel, L("ExportToExcel"));
 
 			//// 添加自定义代码开始

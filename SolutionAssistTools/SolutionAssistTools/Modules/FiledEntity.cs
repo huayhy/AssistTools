@@ -12,6 +12,7 @@ namespace Faker.AssistTools.Modules
     public class FiledEntity
     {
         public FiledEntity() {
+            this.TypeName = "long";
             this.UseEditDto = true;
             this.UseListDto = true;
         }

@@ -54,6 +54,7 @@ namespace SolutionAssistTools
             // 获取DTE2实例
             var dte = await GetServiceAsync(typeof(DTE)) as DTE2;
             await Faker.AssistTools.TWAssistCommand.InitializeAsync(this, dte);
+            await Faker.AssistTools.FolderCommand.InitializeAsync(this, dte);
         }
 
         #endregion

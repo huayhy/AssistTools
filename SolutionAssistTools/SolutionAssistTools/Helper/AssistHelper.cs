@@ -167,5 +167,33 @@ namespace Faker.AssistTools.Helper
         {
             return ProjectName.EndsWith(Layer);
         }
+
+        /// <summary>
+        /// 判断当前项目是否为ABP项目
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsAbpSolution(string srcDir)
+        {
+            // 判断是否存在src目录
+            if (!Directory.Exists(srcDir)){
+                return false;
+            }
+            // 检查是否存在应用服务层
+            if (Directory.GetDirectories(srcDir, Application.Layer).Length > 0)
+            {
+                return false;
+            }
+            // 检查是否存在领域服务层
+            if (Directory.GetDirectories(srcDir, ProjectCore.Layer).Length > 0)
+            {
+                return false;
+            }
+            // 检查是否存在基础设施层
+            if (Directory.GetDirectories(srcDir, FrameworkCore.Layer).Length > 0)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }
