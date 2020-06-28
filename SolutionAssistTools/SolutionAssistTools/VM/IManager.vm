@@ -15,6 +15,11 @@ namespace $model.NameSpace
     {
 		#region -------------------------------------------------辅助工具生成----------------------------------------------
 		/// <summary>
+		/// 返回表达式数的实体信息即IQueryable类型(可选择部分字段)
+		/// </summary>
+		/// <returns>IQueryable</returns>
+		IQueryable<$model.EntityName> QueryEntityListAsNoTracking();
+		/// <summary>
 		/// 返回表达式数的实体信息即IQueryable类型
 		/// </summary>
 		/// <returns>IQueryable</returns>

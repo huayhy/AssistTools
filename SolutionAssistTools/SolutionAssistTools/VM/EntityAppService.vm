@@ -3,7 +3,7 @@
 #set($EntityName=$model.EntityName)
 #set($SolutionTxt=$model.SolutionTxt)
 #set($BaseName=$model.SolutionTxt)
-
+#set($List=$model.List)
 
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
@@ -60,17 +60,12 @@ namespace ${NameSpace}
         public async Task<PagedResultDto<${EntityName}ListDto>> GetPaged(Get${EntityName}sInput input)
 		{
 			var query = _${EntityName.ToLower()}Repository.GetAll()
-                           
-                            //模糊搜索Telephone
-                          .WhereIf(!input.FilterText.IsNullOrWhiteSpace(), a => a.Telephone.Contains(input.FilterText))                                                                                      
-                            //模糊搜索Address
-                          .WhereIf(!input.FilterText.IsNullOrWhiteSpace(), a => a.Address.Contains(input.FilterText))                                                                                      
-                            //模糊搜索Email
-                          .WhereIf(!input.FilterText.IsNullOrWhiteSpace(), a => a.Email.Contains(input.FilterText))                                                                                      
-                            //模糊搜索Name
-                          .WhereIf(!input.FilterText.IsNullOrWhiteSpace(), a => a.Name.Contains(input.FilterText))                                                                                      
-                            //模糊搜索Remark
-                          .WhereIf(!input.FilterText.IsNullOrWhiteSpace(), a => a.Remark.Contains(input.FilterText))                                                           
+#foreach($item in $List)##
+#if($item.TypeName=="string")##
+                            //模糊搜索 ${item.CName}
+                          .WhereIf(!input.FilterText.IsNullOrWhiteSpace(), a => a.${item.Name}.Contains(input.FilterText))                                                                                      
+#end##                           
+#end## 
 			;
 			// TODO:根据传入的参数添加过滤条件
 

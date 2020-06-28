@@ -263,7 +263,7 @@ namespace Faker.AssistTools.Layers
                 // 选择文件的命名空间 + DomainService
                 NameSpace = string.Format("{0}.{1}", FileEntity.NameSpace, this.DomainServiceName), // 命名空间
                 EntityName = FileEntity.Name, // 实体类型名称
-
+                List = FileEntity.Fields,
             };
 
             VelocityContext context = new VelocityContext();
