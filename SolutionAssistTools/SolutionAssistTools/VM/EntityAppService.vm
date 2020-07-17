@@ -19,7 +19,7 @@ using System.Data;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
-
+using Microsoft.AspNetCore.Mvc;
 using ${SolutionName}.Dtos;
 using ${NameSpace};
 using ${NameSpace}.Dtos;
@@ -29,6 +29,13 @@ using ${SolutionName}.Authorization;
 
 namespace ${NameSpace}
 {
+	/// <summary>
+    /// 【扩展模块】  <br/>
+    /// 【功能描述】  ：XXX 模块<br/>
+    /// 【创建日期】  ：2020.05.21 <br/>
+    /// 【开发人员】  ：static残影<br/>
+    ///</summary>
+	[ApiExplorerSettings(GroupName = "Manager", IgnoreApi = false)]
 	public class ${EntityName}AppService : ${BaseName}AppServiceBase, I${EntityName}AppService
 	{
 		/// <summary>
