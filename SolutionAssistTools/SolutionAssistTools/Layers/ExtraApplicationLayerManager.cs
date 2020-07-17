@@ -1,4 +1,5 @@
-﻿using Faker.AssistTools.Modules;
+﻿using Faker.AssistTools.Helper;
+using Faker.AssistTools.Modules;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,14 +9,37 @@ using System.Threading.Tasks;
 
 namespace Faker.AssistTools.Layers
 {
-    public class ApplicationLayerManager: BaseLayerManager, ILayerManager
+    public class ExtraApplicationLayerManager : BaseLayerManager, ILayerManager
     {
         // 需要一个变量来配置生成参数
         protected FileEntity FileEntity;
 
-        public ApplicationLayerManager(FileEntity _FileEntity)
+        public ExtraApplicationLayerManager(FileEntity _FileEntity)
         {
             FileEntity = _FileEntity;
+            // 额外的应用服务层数据(如果勾选了生成额外的应用服务)
+            var dirExtraApplication = AssistHelper.GetExtraLayerDir(FileEntity.ServDir, APP.Configuration.ExtraName);
+            FileEntity.ExtraApplication.Name = dirExtraApplication?.Name;
+            FileEntity.ExtraApplication.BaseDirPath = dirExtraApplication?.FullName;
+
+            string oldval = string.Format("src\\{0}", FileEntity.ProjectCore.Name);
+            string newval = string.Format("serv\\{0}", FileEntity.ExtraApplication.Name);
+            FileEntity.ExtraApplication.DomainPath = FileEntity.CurrentFile.DirectoryName.Replace(oldval, newval);
+
+            // 获取方案名称
+            var strs = FileEntity.ExtraApplication.Name.Split('.');
+            if (strs.Length == 3)
+            {
+                this.FileEntity.ExtraApplication.CompanyName = strs[0];
+                this.FileEntity.ExtraApplication.SubName = strs[1];
+                this.FileEntity.ExtraApplication.ClassName = string.Format("{0}{1}", strs[1], strs[2]);
+            }
+            if (strs.Length == 2)
+            {
+                this.FileEntity.ExtraApplication.CompanyName = strs[0];
+                this.FileEntity.ExtraApplication.SubName = strs[0];
+                this.FileEntity.ExtraApplication.ClassName = string.Format("{0}", strs[1]);
+            }
         }
 
         /// <summary>
@@ -35,7 +59,7 @@ namespace Faker.AssistTools.Layers
         /// <summary>
         /// 输出层文件对象
         /// </summary>
-        public void OutputLayer()
+        public  void OutputLayer()
         {
             throw new NotImplementedException();
         }
@@ -46,11 +70,11 @@ namespace Faker.AssistTools.Layers
         protected void CreateDirectory()
         {
             // 创建Dtos目录
-            this.CreateDirectory(this.FileEntity.Application.BaseDirPath, "Dtos");
+            this.CreateDirectory(this.FileEntity.ExtraApplication.BaseDirPath, "Dtos");
             // 创建实体对应Dto目录
-            this.CreateDirectory(this.FileEntity.Application.DomainPath, "Dtos");
+            this.CreateDirectory(this.FileEntity.ExtraApplication.DomainPath, "Dtos");
             //  创建 Mapper 目录
-            this.CreateDirectory(this.FileEntity.Application.DomainPath, "Mapper");
+            this.CreateDirectory(this.FileEntity.ExtraApplication.DomainPath, "Mapper");
         }
 
         /// <summary>
@@ -58,6 +82,8 @@ namespace Faker.AssistTools.Layers
         /// </summary>
         protected void CreateFiles()
         {
+            // 创建基础类
+            this.Create_Base();
             // 创建通用的DTO
             this.Create_Dtos();
             // 创建实体Dto
@@ -68,6 +94,12 @@ namespace Faker.AssistTools.Layers
             this.Create_EntityObject();
             // 创建说明文件
             this.Create_Readme();
+        }
+
+        protected void Create_Base()
+        {
+            this.Create_ExtraApplicationModule();
+            this.Create_ExtraServiceBase();
         }
 
         /// <summary>
@@ -98,6 +130,56 @@ namespace Faker.AssistTools.Layers
             this.Create_EntityObject_Implement();
         }
 
+        protected void Create_ExtraApplicationModule()
+        {
+            string path = string.Empty;
+            string fileName  = string.Empty;
+            
+            var model = new
+            {
+                // 选择文件的命名空间 + DomainService
+                NameSpace = FileEntity.ExtraApplication.Name, // 命名空间
+                EntityName = FileEntity.Name, // 实体类型名称
+                List = FileEntity.Fields,
+                SolutionTxt = FileEntity.SubName,
+                ProjectName = FileEntity.ExtraApplication.Name,
+                SolutionName = FileEntity.Solution.Name,
+                InheritDto = FileEntity.ClassEntity.InheritDto,
+                InheritType = FileEntity.ClassEntity.InheritType,
+                ClassName = FileEntity.ExtraApplication.ClassName,
+                CoreClassName = FileEntity.ProjectCore.ClassName
+            };
+
+            fileName = string.Format("{0}Module.cs", FileEntity.ExtraApplication.ClassName);
+            path = Path.Combine(this.FileEntity.ExtraApplication.BaseDirPath, fileName);
+            this.CreateFile(path, "ExtraApplicationModule.vm", model);
+        }
+
+        protected void Create_ExtraServiceBase()
+        {
+            string path = string.Empty;
+            string fileName = string.Empty;
+
+            var model = new
+            {
+                // 选择文件的命名空间 + DomainService
+                NameSpace = FileEntity.ExtraApplication.Name, // 命名空间
+                EntityName = FileEntity.Name, // 实体类型名称
+                List = FileEntity.Fields,
+                SolutionTxt = FileEntity.SubName,
+                ProjectName = FileEntity.ExtraApplication.Name,
+                SolutionName = FileEntity.Solution.Name,
+                InheritDto = FileEntity.ClassEntity.InheritDto,
+                InheritType = FileEntity.ClassEntity.InheritType,
+                ClassName = FileEntity.ExtraApplication.ClassName,
+                CoreClassName = FileEntity.ProjectCore.ClassName
+            };
+
+            fileName = string.Format("{0}ServiceBase.cs", FileEntity.ExtraApplication.ClassName);
+            path = Path.Combine(this.FileEntity.ExtraApplication.BaseDirPath, fileName);
+            this.CreateFile(path, "ExtraServiceBase.vm", model);
+        }
+
         /// <summary>
         /// 创建公共Dto文件
         /// </summary>
@@ -108,18 +190,18 @@ namespace Faker.AssistTools.Layers
             var model = new
             {
                 // 选择文件的命名空间 + DomainService
-                NameSpace = FileEntity.Solution.Name, // 命名空间
+                NameSpace  = FileEntity.ExtraApplication.Name, // 命名空间
                 EntityName = FileEntity.Name, // 实体类型名称
-                SolutionName = string.Empty
+                SolutionName = FileEntity.Solution.Name,
             };
 
-            path = Path.Combine(this.FileEntity.Application.BaseDirPath, "Dtos", "PagedAndFilteredInputDto.cs");
+            path = Path.Combine(this.FileEntity.ExtraApplication.BaseDirPath, "Dtos", "PagedAndFilteredInputDto.cs");
             this.CreateFile(path, "PagedAndFilteredInputDto.vm", model);
-            path = Path.Combine(this.FileEntity.Application.BaseDirPath, "Dtos", "PagedAndSortedInputDto.cs");
+            path = Path.Combine(this.FileEntity.ExtraApplication.BaseDirPath, "Dtos", "PagedAndSortedInputDto.cs");
             this.CreateFile(path, "PagedAndSortedInputDto.vm", model);
-            path = Path.Combine(this.FileEntity.Application.BaseDirPath, "Dtos", "PagedInputDto.cs");
+            path = Path.Combine(this.FileEntity.ExtraApplication.BaseDirPath, "Dtos", "PagedInputDto.cs");
             this.CreateFile(path, "PagedInputDto.vm", model);
-            path = Path.Combine(this.FileEntity.Application.BaseDirPath, "Dtos", "PagedSortedAndFilteredInputDto.cs");
+            path = Path.Combine(this.FileEntity.ExtraApplication.BaseDirPath, "Dtos", "PagedSortedAndFilteredInputDto.cs");
             this.CreateFile(path, "PagedSortedAndFilteredInputDto.vm", model);
         }
 
@@ -134,7 +216,7 @@ namespace Faker.AssistTools.Layers
             var model = new
             {
                 // 选择文件的命名空间 + DomainService
-                NameSpace =  FileEntity.NameSpace, // 命名空间
+                NameSpace = FileEntity.ExtraApplication.Name, // 命名空间
                 EntityName = FileEntity.Name, // 实体类型名称
                 List = FileEntity.Fields,
                 InheritDto = FileEntity.ClassEntity.InheritDto,
@@ -142,7 +224,7 @@ namespace Faker.AssistTools.Layers
             };
 
             fileName = string.Format("{0}ListDto.cs", FileEntity.Name);
-            path = Path.Combine(this.FileEntity.Application.DomainPath, "Dtos", fileName);
+            path = Path.Combine(this.FileEntity.ExtraApplication.DomainPath, "Dtos", fileName);
             this.CreateFile(path, "ListDto.vm", model);
         }
 
@@ -157,7 +239,7 @@ namespace Faker.AssistTools.Layers
             var model = new
             {
                 // 选择文件的命名空间 + DomainService
-                NameSpace = FileEntity.NameSpace, // 命名空间
+                NameSpace = FileEntity.ExtraApplication.Name, // 命名空间
                 EntityName = FileEntity.Name, // 实体类型名称
                 List = FileEntity.Fields,
                 InheritDto = FileEntity.ClassEntity.InheritDto,
@@ -165,7 +247,7 @@ namespace Faker.AssistTools.Layers
             };
 
             fileName = string.Format("{0}EditDto.cs", FileEntity.Name);
-            path = Path.Combine(this.FileEntity.Application.DomainPath, "Dtos", fileName);
+            path = Path.Combine(this.FileEntity.ExtraApplication.DomainPath, "Dtos", fileName);
             this.CreateFile(path, "EditDto.vm", model);
         }
 
@@ -181,17 +263,16 @@ namespace Faker.AssistTools.Layers
             var model = new
             {
                 // 选择文件的命名空间 + DomainService
-                NameSpace = FileEntity.NameSpace, // 命名空间
+                NameSpace = FileEntity.ExtraApplication.Name, // 命名空间
                 EntityName = FileEntity.Name, // 实体类型名称
                 List = FileEntity.Fields,
                 SolutionName = FileEntity.Solution.Name,
-                InheritDto = FileEntity.ClassEntity.InheritDto,
-                InheritType = FileEntity.ClassEntity.InheritType,
+                InheritDto = FileEntity.ClassEntity.InheritDto
             };
 
             fileName = string.Format("Get{0}sInput.cs", FileEntity.Name);
-            path = Path.Combine(this.FileEntity.Application.DomainPath, "Dtos", fileName);
-            this.CreateFile(path, "GetEntityInput.vm", model);
+            path = Path.Combine(this.FileEntity.ExtraApplication.DomainPath, "Dtos", fileName);
+            this.CreateFile(path, "ExtraGetEntityInput.vm", model);
         }
 
 
@@ -212,13 +293,13 @@ namespace Faker.AssistTools.Layers
                 SolutionName = FileEntity.Solution.Name,
                 InheritDto = FileEntity.ClassEntity.InheritDto,
                 SolutionTxt = FileEntity.SubName,
-                InheritType = FileEntity.ClassEntity.InheritType,
+                ProjectName = FileEntity.ExtraApplication.Name
 
             };
             
             fileName = string.Format("{0}DtoAutoMapper.cs", FileEntity.Name);
-            path = Path.Combine(this.FileEntity.Application.DomainPath, "Mapper", fileName);
-            this.CreateFile(path, "DtoAutoMapper.vm", model);
+            path = Path.Combine(this.FileEntity.ExtraApplication.DomainPath, "Mapper", fileName);
+            this.CreateFile(path, "ExtraDtoAutoMapper.vm", model);
         }
 
         /// <summary>
@@ -232,15 +313,14 @@ namespace Faker.AssistTools.Layers
             var model = new
             {
                 // 选择文件的命名空间 + DomainService
-                NameSpace = FileEntity.NameSpace, // 命名空间
+                NameSpace = FileEntity.ExtraApplication.Name, // 命名空间
                 EntityName = FileEntity.Name, // 实体类型名称
                 List = FileEntity.Fields,
-                InheritDto = FileEntity.ClassEntity.InheritDto,
-                InheritType = FileEntity.ClassEntity.InheritType,
+                InheritDto = FileEntity.ClassEntity.InheritDto
             };
 
             fileName = string.Format("CreateOrUpdate{0}Input.cs", FileEntity.Name);
-            path = Path.Combine(this.FileEntity.Application.DomainPath, "Dtos", fileName);
+            path = Path.Combine(this.FileEntity.ExtraApplication.DomainPath, "Dtos", fileName);
             this.CreateFile(path, "CreateOrUpdateEntityInput.vm", model);
         }
 
@@ -255,15 +335,14 @@ namespace Faker.AssistTools.Layers
             var model = new
             {
                 // 选择文件的命名空间 + DomainService
-                NameSpace = FileEntity.NameSpace, // 命名空间
+                NameSpace = FileEntity.ExtraApplication.Name, // 命名空间
                 EntityName = FileEntity.Name, // 实体类型名称
                 List = FileEntity.Fields,
-                InheritDto = FileEntity.ClassEntity.InheritDto,
-                InheritType = FileEntity.ClassEntity.InheritType,
+                InheritDto = FileEntity.ClassEntity.InheritDto
             };
 
             fileName = string.Format("Get{0}ForEditOutput.cs", FileEntity.Name);
-            path = Path.Combine(this.FileEntity.Application.DomainPath, "Dtos", fileName);
+            path = Path.Combine(this.FileEntity.ExtraApplication.DomainPath, "Dtos", fileName);
             this.CreateFile(path, "GetEntityForEditOutput.vm", model);
         }
 
@@ -278,7 +357,7 @@ namespace Faker.AssistTools.Layers
             var model = new
             {
                 // 选择文件的命名空间 + DomainService
-                NameSpace = FileEntity.NameSpace, // 命名空间
+                NameSpace = FileEntity.ExtraApplication.Name, // 命名空间
                 EntityName = FileEntity.Name, // 实体类型名称
                 List = FileEntity.Fields,
                 InheritDto = FileEntity.ClassEntity.InheritDto,
@@ -287,8 +366,8 @@ namespace Faker.AssistTools.Layers
             };
 
             fileName = string.Format("I{0}AppService.cs", FileEntity.Name);
-            path = Path.Combine(this.FileEntity.Application.DomainPath, fileName);
-            this.CreateFile(path, "IEntityAppService.vm", model);
+            path = Path.Combine(this.FileEntity.ExtraApplication.DomainPath, fileName);
+            this.CreateFile(path, "ExtraIEntityAppService.vm", model);
         }
 
         /// <summary>
@@ -309,12 +388,13 @@ namespace Faker.AssistTools.Layers
                 SolutionName = FileEntity.Solution.Name,
                 SolutionTxt = FileEntity.SubName,
                 InheritType = FileEntity.ClassEntity.InheritType,
-
+                ProjectName = FileEntity.ExtraApplication.Name,
+                ClassName = FileEntity.ExtraApplication.ClassName,
             };
 
             fileName = string.Format("{0}AppService.cs", FileEntity.Name);
-            path = Path.Combine(this.FileEntity.Application.DomainPath, fileName);
-            this.CreateFile(path, "EntityAppService.vm", model);
+            path = Path.Combine(this.FileEntity.ExtraApplication.DomainPath, fileName);
+            this.CreateFile(path, "ExtraEntityAppService.vm", model);
         }
 
 
@@ -329,17 +409,17 @@ namespace Faker.AssistTools.Layers
             var model = new
             {
                 // 选择文件的命名空间 + DomainService
-                NameSpace = FileEntity.NameSpace, // 命名空间
+                NameSpace = FileEntity.ExtraApplication.Name, // 命名空间
                 EntityName = FileEntity.Name, // 实体类型名称
                 List = FileEntity.Fields,
                 SolutionName = FileEntity.Solution.Name,
                 InheritDto = FileEntity.ClassEntity.InheritDto,
                 SolutionTxt = FileEntity.SubName,
-                InheritType = FileEntity.ClassEntity.InheritType,
+
             };
 
             fileName = "readme.md";
-            path = Path.Combine(this.FileEntity.Application.DomainPath, fileName);
+            path = Path.Combine(this.FileEntity.ExtraApplication.DomainPath, fileName);
             this.CreateFile(path, "Readme.vm", model);
         }
     }

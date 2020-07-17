@@ -20,6 +20,7 @@ namespace Faker.AssistTools.Modules
             this.UseApplication = true;
             this.UseAuthorization = false;
             this.UseDomainService = true;
+            this.UseExtraApplication = false;
         }
 
         /// <summary>
@@ -47,5 +48,15 @@ namespace Faker.AssistTools.Modules
         /// 是否生成领域服务
         /// </summary>
         public bool UseDomainService { get; set; }
+
+        /// <summary>
+        /// 使用额外应用服务
+        /// </summary>
+        public bool UseExtraApplication { get; set; }
+
+        /// <summary>
+        /// 如果需要额外的引用服务，需要设置这个服务项目的名称
+        /// </summary>
+        public string ExtraName { get; set; }
     }
 }

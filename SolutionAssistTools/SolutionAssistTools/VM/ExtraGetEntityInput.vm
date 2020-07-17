@@ -7,7 +7,7 @@
 using Abp.Runtime.Validation;
 using ${SolutionName};
 using ${NameSpace};
-using ${SolutionName}.Dtos;
+
 namespace ${NameSpace}.Dtos
 {
 	/// <summary>

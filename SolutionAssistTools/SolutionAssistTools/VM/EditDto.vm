@@ -1,9 +1,10 @@
 ﻿
-
+#set($InheritType=$model.InheritType)
+using System;
 using Abp.Application.Services.Dto;
 using Abp.Domain.Entities;
 using System.ComponentModel.DataAnnotations;
-
+using SOEI.Solution;
 namespace ${model.NameSpace}.Dtos
 {	
 	/// <summary>
@@ -12,11 +13,17 @@ namespace ${model.NameSpace}.Dtos
 	/// </summary>
     public class ${model.EntityName}EditDto
     {
-
+#if($model.InheritType == "string")##
 		/// <summary>
         /// Id 
         /// </summary>
-        public long? Id { get; set; }     
+        public ${model.InheritType} Id { get; set; }
+#else##
+		/// <summary>
+        /// Id 
+        /// </summary>
+        public ${model.InheritType}? Id { get; set; }
+#end##
 
 #foreach($item in $model.list)##
 #if($item.UseEditDto)##

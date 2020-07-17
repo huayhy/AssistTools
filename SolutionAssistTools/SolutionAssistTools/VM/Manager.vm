@@ -1,4 +1,5 @@
 ﻿#set($List=$model.List)
+#set($InheritType=$model.InheritType)
 
 using Abp.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -16,13 +17,13 @@ namespace $model.NameSpace
     public class ${model.EntityName}Manager :DomainServiceBase, I${model.EntityName}Manager
     {
 		
-		private readonly IRepository<${model.EntityName},long> _${model.EntityName.ToLower()}Repository;
+		private readonly IRepository<${model.EntityName},${model.InheritType}> _${model.EntityName.ToLower()}Repository;
 
 		/// <summary>
 		/// 【$model.EntityName】的构造方法
 		/// 通过构造函数注册服务到依赖注入容器中
 		///</summary>
-	    public ${model.EntityName}Manager(IRepository<${model.EntityName}, long> ${model.EntityName.ToLower()}Repository)	{
+	    public ${model.EntityName}Manager(IRepository<${model.EntityName}, ${model.InheritType}> ${model.EntityName.ToLower()}Repository)	{
 			_${model.EntityName.ToLower()}Repository =  ${model.EntityName.ToLower()}Repository;
 		}
 
@@ -37,7 +38,7 @@ namespace $model.NameSpace
             var query = _${model.EntityName.ToLower()}Repository.GetAll().AsNoTracking()
                         .Select(x => new ${model.EntityName}
                         {
-                            Id = x.Id,
+                           
 #foreach($item in $List)##
                             ${item.Name} = x.${item.Name},
 #end##  
@@ -66,7 +67,7 @@ namespace $model.NameSpace
         /// </summary>
         /// <param name="id"></param>
         /// <returns>实体</returns>
-        public async Task<${model.EntityName}> FindByIdAsync(long id)
+        public async Task<${model.EntityName}> FindByIdAsync(${model.InheritType} id)
         {
             var entity = await _${model.EntityName.ToLower()}Repository.GetAsync(id);
             return entity;
@@ -76,7 +77,7 @@ namespace $model.NameSpace
         /// </summary>
         /// <param name="id"></param>
         /// <returns>bool</returns>
-        public async Task<bool> IsExistAsync(long id)
+        public async Task<bool> IsExistAsync(${model.InheritType} id)
         {
             var result = await _${model.EntityName.ToLower()}Repository.GetAll().AnyAsync(a => a.Id == id);
             return result;
@@ -105,7 +106,7 @@ namespace $model.NameSpace
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task DeleteAsync(long id)
+        public async Task DeleteAsync(${model.InheritType} id)
         {
             //TODO:删除前的逻辑判断，是否允许删除
             await _${model.EntityName.ToLower()}Repository.DeleteAsync(id);
@@ -115,7 +116,7 @@ namespace $model.NameSpace
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task BatchDelete(List<long> input)
+        public async Task BatchDelete(List<${model.InheritType}> input)
         {
             //TODO:删除前的逻辑判断，是否允许删除
             await _${model.EntityName.ToLower()}Repository.DeleteAsync(a => input.Contains(a.Id));

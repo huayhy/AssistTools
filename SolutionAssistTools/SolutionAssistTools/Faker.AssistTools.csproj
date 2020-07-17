@@ -52,6 +52,7 @@
     <Compile Include="Helper\AssistFolderHelper.cs" />
     <Compile Include="Helper\AssistHelper.cs" />
     <Compile Include="Helper\GenerateHelper.cs" />
+    <Compile Include="Layers\ExtraApplicationLayerManager.cs" />
     <Compile Include="Layers\ApplicationLayerManager.cs" />
     <Compile Include="Layers\BaseLayerManager.cs" />
     <Compile Include="Layers\DomainLayerManager.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="Layers\FrameworkCoreManager.cs" />
     <Compile Include="Layers\ILayerManager.cs" />
     <Compile Include="Modules\APP.cs" />
+    <Compile Include="Modules\ExtraApplication.cs" />
     <Compile Include="Modules\Application.cs" />
     <Compile Include="Modules\BaseEntity.cs" />
     <Compile Include="Modules\ClassEntity.cs" />
@@ -176,6 +178,30 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="VM\Entity.vm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="VM\ExtraIEntityAppService.vm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="VM\ExtraEntityAppService.vm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="VM\ExtraDtoAutoMapper.vm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="VM\ExtraGetEntityInput.vm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="VM\ExtraApplicationModule.vm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="VM\ExtraServiceBase.vm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>

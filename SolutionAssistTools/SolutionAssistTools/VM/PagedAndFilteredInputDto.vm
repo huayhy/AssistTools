@@ -1,8 +1,10 @@
 ﻿
-
+#set($SolutionName=$model.SolutionName)
 using System.ComponentModel.DataAnnotations;
 using Abp.Application.Services.Dto;
-
+#if($SolutionName != "")##
+using ${SolutionName};
+#end## 
 namespace  ${model.NameSpace}.Dtos
 {
     public class PagedAndFilteredInputDto : IPagedResultRequest

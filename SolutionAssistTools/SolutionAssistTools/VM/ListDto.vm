@@ -1,5 +1,5 @@
 ﻿
-
+using System;
 using Abp.Application.Services.Dto;
 using Abp.Domain.Entities;
 
@@ -11,6 +11,17 @@ namespace ${model.NameSpace}.Dtos
 	/// </summary>
     public class ${model.EntityName}ListDto  ${model.InheritDto}
     {
+#if($model.InheritType == "string")##
+		/// <summary>
+        /// Id 
+        /// </summary>
+        public ${model.InheritType} Id { get; set; }
+#else##
+		/// <summary>
+        /// Id 
+        /// </summary>
+        public ${model.InheritType}? Id { get; set; }
+#end##
 #foreach($item in $model.list)##
 
 		/// <summary>

@@ -12,7 +12,23 @@
             <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
 
-        <GroupBox x:Name="groupBox" Header="基础配置" Height="72" VerticalAlignment="Top" Margin="10,0,0,0"/>
+        <GroupBox x:Name="groupBox" Header="基础配置" Height="72" VerticalAlignment="Top" Margin="10,0,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="70*"/>
+                    <ColumnDefinition Width="200*"/>
+                    <ColumnDefinition Width="200*"/>
+                    <ColumnDefinition Width="200*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <CheckBox x:Name="UseExtraApplication" IsChecked="{Binding UseExtraApplication}"  Grid.Column="0" Content="额外的应用服务" HorizontalAlignment="Left" Height="20" Margin="0,20,0,0" VerticalAlignment="Top" Width="105" Click="UseExtraApplication_Click"/>
+                <ComboBox x:Name="txtExtra"  DisplayMemberPath="Value"
+                                          SelectedValuePath="Key"  Grid.Column="1" HorizontalAlignment="Left" Margin="20,14,0,0" VerticalAlignment="Top" Width="260" Height="23" IsEnabled="False" IsEditable="True"/>
+
+            </Grid>
+        </GroupBox>
         <ListView Name="ListmuLu" Margin="10,77,0,0" HorizontalAlignment="Left" Width="984" VerticalAlignment="Top" Height="313"  >
             <ListView.View>
                 <GridView>
@@ -86,32 +102,12 @@
                     <TextBox Text="{Binding Path=Name}" Height="25" Width="100"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
-
-
-
-            <!--<ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <WrapPanel>
-                            <Label Content="所扣分数："/>
-                            <TextBlock Text="{Binding Path=Score}"/>
-                        </WrapPanel>
-                        <WrapPanel>
-                            <Label Content="有效状态："/>
-                            <TextBox Text="{Binding Path=Status}" Height="23" Width="100"/>
-                            <ComboBox  Height="23" Width="100" SelectedValue="{Binding Path=Status, Mode=OneWay}">
-                                <ComboBoxItem Content="有效"/>
-                                <ComboBoxItem Content="无效"/>
-                            </ComboBox>
-                        </WrapPanel>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>-->
         </ListView>
 
         <Button x:Name="btnSubmit" Content="开始生成" HorizontalAlignment="Left" Height="36" Margin="836,0,0,-45" VerticalAlignment="Bottom" Width="75" Grid.Row="1" Click="btnSubmit_Click"/>
         <Button x:Name="butCancal" Content="取消" HorizontalAlignment="Left" Height="36" Margin="919,0,0,-45" VerticalAlignment="Bottom" Width="75" Grid.Row="1" Click="butCancal_Click"/>
         <Button x:Name="butPre" Content="上一步" HorizontalAlignment="Left" Height="36" Margin="10,0,0,-45" VerticalAlignment="Bottom" Width="75" Grid.Row="1" Click="butPre_Click"/>
         <Line Stretch="Fill" Stroke="Black" X2="1" VerticalAlignment="Bottom" Grid.Row="1" Margin="0,0,0,-67"/>
+        
     </Grid>
 </Window>

@@ -1,4 +1,4 @@
-﻿
+﻿#set($InheritType=$model.InheritType)
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,12 +34,12 @@ namespace $model.NameSpace
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns>实体</returns>
-		Task<$model.EntityName> FindByIdAsync(long id);
+		Task<$model.EntityName> FindByIdAsync(${model.InheritType} id);
 		/// <summary>
 		/// 【$model.EntityName】检查实体是否存在
 		/// </summary>
 		/// <returns>是否成功</returns>
-		Task<bool> IsExistAsync(long id);
+		Task<bool> IsExistAsync(${model.InheritType} id);
 		/// <summary>
 		/// 【$model.EntityName】添加实体
 		/// </summary>
@@ -57,13 +57,13 @@ namespace $model.NameSpace
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		Task DeleteAsync(long id);
+		Task DeleteAsync(${model.InheritType} id);
 		/// <summary>
 		/// 【$model.EntityName】批量删除
 		/// </summary>
 		/// <param name="input">Id的集合</param>
 		/// <returns></returns>
-		Task BatchDelete(List<long> input);
+		Task BatchDelete(List<${model.InheritType}> input);
 		#endregion
 
 		#region -------------------------------------------------用户自定义------------------------------------------------

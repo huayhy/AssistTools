@@ -13,6 +13,8 @@ namespace Faker.AssistTools.Modules
         /// </summary>
         public string Inherit { get; set; }
 
+        public string InheritType { get; set; }
+
         /// <summary>
         /// 获取Dto的继承关系
         /// </summary>

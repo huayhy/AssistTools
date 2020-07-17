@@ -57,7 +57,8 @@ namespace Faker.AssistTools.Helper
             // 当前选中的文件
             var FileEntity = new FileEntity
             {
-                SrcDir      = string.Format("{0}//src/", Path.GetDirectoryName(solution.FullName)), 
+                SrcDir      = string.Format("{0}//src/", Path.GetDirectoryName(solution.FullName)),
+                ServDir     = string.Format("{0}//serv/", Path.GetDirectoryName(solution.FullName)),
                 Name = Path.GetFileNameWithoutExtension(selectedItem.Name),  // 选择项名称
                 FullName = selectedItem.Name,
                 FullFileName = selectedItem.FileNames[0], // 当前选中的文件全名称
@@ -82,6 +83,23 @@ namespace Faker.AssistTools.Helper
             FileEntity.FrameworkCore.BaseDirPath = dirFrameworkCore?.FullName;
             FileEntity.LoadData();
             return FileEntity;
+        }
+
+        /// <summary>
+        /// 返回扩展的应用服务目录
+        /// </summary>
+        /// <param name="srcDir"></param>
+        /// <param name="layer"></param>
+        /// <returns></returns>
+        public static DirectoryInfo GetExtraLayerDir(string servDir, string layer)
+        {
+            var dirName = Path.Combine(servDir, layer);
+            DirectoryInfo dir = new DirectoryInfo(dirName);
+            // 目录不存在顺手创建一个
+            if (!dir.Exists)
+                dir.Create();
+            // 如果存在找一下是否存在指定项目目录layer
+            return dir;
         }
 
         /// <summary>
@@ -120,7 +138,7 @@ namespace Faker.AssistTools.Helper
         /// <returns></returns>
         public static ICollection<FiledEntity> GetFields(string str)
         {
-            Regex rg = new Regex("(?:public\\s|private\\s|protected\\s)\\s*(?:readonly\\s+)?(?<type>\\w+)\\s+(?<name>\\w+)", RegexOptions.Multiline | RegexOptions.Singleline);
+            Regex rg = new Regex("(?:public\\s|private\\s|protected\\s)\\s*(?:readonly\\s+)?(?:override\\s+)?(?<type>\\w+)\\s+(?<name>\\w+)", RegexOptions.Multiline | RegexOptions.Singleline);
 
             var matches = rg.Matches(str);
 

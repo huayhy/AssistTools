@@ -1,4 +1,8 @@
-﻿
+﻿#set($SolutionName=$model.SolutionName)
+
+#if($SolutionName != "")##
+using ${SolutionName};
+#end## 
 
 namespace ${model.NameSpace}.Dtos
 {

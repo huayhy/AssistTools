@@ -6,14 +6,19 @@ using System.Threading.Tasks;
 
 namespace Faker.AssistTools.Modules
 {
-    public class ProjectCore : BaseEntity
+    public class ExtraApplication : BaseEntity
     {
-        public const string Layer = ".Core";
+        //public const string Layer = ".Application";
 
         /// <summary>
-        /// 基础设施名称
+        /// 应用服务名称
         /// </summary>
         public override string Name { get; set; }
+
+        /// <summary>
+        /// 应用服务层的实体路径和领域服务层相似
+        /// </summary>
+        public string DomainPath { get; set; }
 
         /// <summary>
         /// 公司活组织名称 比如 Faker.Solution 的 Faker 部分

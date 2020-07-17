@@ -26,6 +26,20 @@ namespace Faker.AssistTools.Layers
         public  DomainLayerManager(FileEntity _FileEntity) 
         {
             FileEntity = _FileEntity;
+            // 获取方案名称
+            var strs = FileEntity.ProjectCore.Name.Split('.');
+            if (strs.Length == 3)
+            {
+                this.FileEntity.ProjectCore.CompanyName = strs[0];
+                this.FileEntity.ProjectCore.SubName = strs[1];
+                this.FileEntity.ProjectCore.ClassName = string.Format("{0}{1}", strs[1], strs[2]);
+            }
+            if (strs.Length == 2)
+            {
+                this.FileEntity.ProjectCore.CompanyName = strs[0];
+                this.FileEntity.ProjectCore.SubName = strs[0];
+                this.FileEntity.ProjectCore.ClassName = string.Format("{0}", strs[1]);
+            }
         }
 
         /// <summary>
@@ -231,7 +245,7 @@ namespace Faker.AssistTools.Layers
                 // 选择文件的命名空间 + DomainService
                 NameSpace = string.Format("{0}.{1}", FileEntity.NameSpace, this.DomainServiceName), // 命名空间
                 EntityName = FileEntity.Name, // 实体类型名称
-
+                InheritType = FileEntity.ClassEntity.InheritType,
             };
 
             VelocityContext context = new VelocityContext();
@@ -263,6 +277,7 @@ namespace Faker.AssistTools.Layers
                 // 选择文件的命名空间 + DomainService
                 NameSpace = string.Format("{0}.{1}", FileEntity.NameSpace, this.DomainServiceName), // 命名空间
                 EntityName = FileEntity.Name, // 实体类型名称
+                InheritType = FileEntity.ClassEntity.InheritType,
                 List = FileEntity.Fields,
             };
 

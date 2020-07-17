@@ -12,7 +12,7 @@ using Abp.Application.Services.Dto;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-using ${SolutionName}.Dtos;
+
 using ${NameSpace};
 using ${model.NameSpace}.Dtos;
 

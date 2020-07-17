@@ -48,6 +48,11 @@ namespace Faker.AssistTools.Modules
         public ProjectCore ProjectCore { get; set; }
 
         /// <summary>
+        /// 额外应用服相关数据
+        /// </summary>
+        public ExtraApplication ExtraApplication { get; set; }
+
+        /// <summary>
         /// 解析出来的字段实体（或者新增的实体）
         /// </summary>
         public ICollection<FiledEntity> Fields { get; set; }
@@ -59,6 +64,7 @@ namespace Faker.AssistTools.Modules
             this.FrameworkCore = new FrameworkCore();
             this.ProjectCore = new ProjectCore();
             this.ClassEntity = new ClassEntity();
+            this.ExtraApplication = new ExtraApplication();
         }
 
         /// <summary>
@@ -69,8 +75,11 @@ namespace Faker.AssistTools.Modules
         ///  ABP源代码的目录
         /// </summary>
         public string SrcDir { get; set; }
+        /// <summary>
+        /// 扩展的额外服务目录名称
+        /// </summary>
+        public string ServDir { get; set; }
 
-       
         /// <summary>
         /// 当前选择的文件名称 Member.cs
         /// </summary>
@@ -119,6 +128,8 @@ namespace Faker.AssistTools.Modules
             this.NameSpace = AssistHelper.GetValue(text, "namespace", "{").Trim();
             // 获取类名称继承接信息
             this.ClassEntity.Inherit = AssistHelper.GetClassInfo(text);
+            // 扩展的主键类型
+            this.ClassEntity.InheritType = AssistHelper.GetValue(this.ClassEntity.Inherit, "<", ">");
             // 获取方案名称
             var strs = this.Solution.Name.Split('.');
             if (strs.Length == 2)

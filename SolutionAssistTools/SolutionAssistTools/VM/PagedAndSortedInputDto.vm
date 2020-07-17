@@ -1,6 +1,8 @@
-﻿
+﻿#set($SolutionName=$model.SolutionName)
 using Abp.Application.Services.Dto;
-
+#if($SolutionName != "")##
+using ${SolutionName};
+#end## 
 namespace ${model.NameSpace}.Dtos
 {
     public class PagedAndSortedInputDto : PagedInputDto, ISortedResultRequest
