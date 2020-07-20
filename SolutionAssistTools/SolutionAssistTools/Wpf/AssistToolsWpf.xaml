@@ -27,7 +27,7 @@
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
-                <CheckBox x:Name="IsCover" IsChecked="{Binding IsCover}" Grid.Row="0" Grid.Column="0" Content="覆盖文件" HorizontalAlignment="Left" Margin="28,26,0,0" VerticalAlignment="Top" Height="15" Width="68">
+                <CheckBox x:Name="IsCover" IsChecked="{Binding IsCover}" Grid.Row="0" Grid.Column="0" Content="覆盖文件  (仅包含【领域服务】【权限服务】【应用服务】)" HorizontalAlignment="Left" Margin="28,26,0,0" VerticalAlignment="Top" Height="15" Width="350" Grid.ColumnSpan="2">
 
                 </CheckBox>
                 <CheckBox x:Name="IsFirst" IsChecked="{Binding IsFirst}" Grid.Row="1" Grid.Column="0" Content="基础数据（首次使用）" HorizontalAlignment="Left" Margin="28,26,0,0" VerticalAlignment="Top" Height="15" Width="140">
@@ -49,6 +49,6 @@
         <TextBlock x:Name="entityTextBlock"  Grid.Column="1" HorizontalAlignment="Left" Margin="15,19,0,0" TextWrapping="Wrap" Text="实体名称" VerticalAlignment="Top" Foreground="#FF0C61DC" FontSize="25" FontWeight="Bold"/>
 
         <Line Stretch="Fill" Stroke="Black" X2="1" VerticalAlignment="Bottom" Margin="15,0,13,289" Grid.Column="1"/>
-        <TextBox x:Name="textBox" Grid.Column="1" HorizontalAlignment="Left" Height="188" Margin="27,313,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="809" Text="使用说明：&#xD;&#xA;             1. 请确认当前项目使用ABP官方下载，并且包含  .Application .Core .EntityFrameworkCore 层，这将当做验证依据。&#xD;&#xA;             2. 首次使用请勾选 【基础数据】 选项，生成成功请阅览 readme.md 文档。&#xD;&#xA;             3. 支持生成额外应用服务层，请手动创建额外项目，项目文件创建到 Srev目录下（和Src同级别），工具会自动生成基础模块类。&#xD;&#xA;             4. 项目命名请遵循规则，Company.Project.Application&#xD;&#xA;             5. 勾选覆盖文件同样对额外应用有效，勾选前请确认（包含基础数据模块类） &#xD;&#xA;             6.  .Core 层下的 DomainEntities 中自行添加领域目录 目录右键可进入编辑实体界面自动生成并创建实体"  FontSize="14"/>
+        <TextBox x:Name="textBox" Grid.Column="1" HorizontalAlignment="Left" Height="188" Margin="27,313,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="809" Text="使用说明：&#xD;&#xA;&#x9;* 扩展模式 *&#xD;&#xA;&#x9;   &#x9;项目结构 【 Company.Project 】  项目命名方式&#xD;&#xA;&#x9;&#x9; src 目录（.Application.Contracts 不存在视为 标准模式，否则为扩展模式）&#xD;&#xA;&#x9;&#x9;    .Application                              应用服务        （ABP约定）&#xD;&#xA;&#x9;&#x9;    .Application.Contracts              应用合约层    （需要手动在解决方案中创建项目放入Src目录）&#xD;&#xA;&#x9;&#x9;    .Core&#x9;&#x9;&#x9;             领域层           （ABP约定）&#xD;&#xA;&#x9;                  .EntityFrameworkCore              基础设施层    （ABP约定）&#xD;&#xA;&#xD;&#xA;&#x9;注意： 扩展模式下，DTO和Application结构全部生成在  .Application.Contracts  项目中&#xD;&#xA;&#xA;             1. 请确认当前项目使用ABP官方下载，并且包含  .Application .Core .EntityFrameworkCore 层，这将当做验证依据。&#xA;             2. 首次使用请勾选 【基础数据】 选项，生成成功请阅览 readme.md 文档。&#xA;             3. 支持生成额外应用服务层，请手动创建额外项目，项目文件创建到 Srev目录下（和Src同级别），工具会自动生成基础模块类。&#xA;             4. 项目命名请遵循规则，Company.Project.Application&#xA;             5. 勾选覆盖文件同样对额外应用有效，勾选前请确认（包含基础数据模块类） &#xA;             6.  .Core 层下的 DomainEntities 中自行添加领域目录 目录右键可进入编辑实体界面自动生成并创建实体"  FontSize="14"/>
     </Grid>
 </Window>

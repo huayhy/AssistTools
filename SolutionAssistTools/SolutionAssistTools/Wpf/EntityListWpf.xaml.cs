@@ -26,6 +26,8 @@ namespace Faker.AssistTools.Wpf
 
         public Dictionary<int, string> ApplicationListSource = new Dictionary<int, string>();
 
+        ILayerManager ContractsManager = null; // 这个Layer 已经处理了生成额外的还是非额外的应用服务
+
         public EntityListWpf()
         {
             InitializeComponent();
@@ -38,6 +40,12 @@ namespace Faker.AssistTools.Wpf
             FileEntity = _FileEntity;
 
             this.DoLoadData();
+
+            // 新模式创建Manager
+            this.ContractsManager = new ContractsManager(this.FileEntity);
+
+            this.btnNewSubmit.IsEnabled = this.FileEntity.Contracts.IsUse;
+            this.btnSubmit.IsEnabled = !this.FileEntity.Contracts.IsUse;
         }
 
         private void DoLoadData()
@@ -57,27 +65,92 @@ namespace Faker.AssistTools.Wpf
             }
         }
 
+        /// <summary>
+        /// 标准模式创建
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
+        {
+            
+            // 判断是否生成额外的应用服务
+            APP.Configuration.ExtraName = this.txtExtra.Text.Trim();
+
+            //1. 处理领域服务
+            ILayerManager lm1 = new DomainLayerManager(this.FileEntity);        
+            ILayerManager lm2 = new FrameworkCoreManager(this.FileEntity);
+
+            ILayerManager lm3 = new ApplicationLayerManager(this.FileEntity);
+            ILayerManager lm4 = new ExtraApplicationLayerManager(this.FileEntity);
+
+            //ILayerManager lm5 = new ContractsManager(this.FileEntity); // 这个Layer 已经处理了生成额外的还是非额外的应用服务
+
+            // 处理基础结构（首次访问）
+            if (APP.Configuration.IsFirst)
+            {
+                // 创建基础结构，目录结构，常量文件等
+                lm1.CreateBaseLayer();
+                lm2.CreateBaseLayer();
+                lm3.CreateBaseLayer();
+                lm4.CreateBaseLayer();
+
+                //lm5.CreateBaseLayer();
+            }
+            //2. 基础设施
+            lm1.CreateLayer();
+            lm2.CreateLayer();
+            // 的模式，这里判断了是否试用扩展额外的应用服务
+            if (APP.Configuration.UseExtraApplication)
+            {
+                // 处理应用服务
+                lm4.CreateLayer();
+            }
+            else
+            {
+                // 处理应用服务
+                lm3.CreateLayer();
+            }
+
+
+            MessageBox.Show("生成操作完成！","注意", MessageBoxButton.OK, MessageBoxImage.Information);
+            this.Close();
+        }
+
+        /// <summary>
+        /// 新模式创建
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnNewSubmit_Click(object sender, RoutedEventArgs e)
         {
             // 判断是否生成额外的应用服务
             APP.Configuration.ExtraName = this.txtExtra.Text.Trim();
 
             //1. 处理领域服务
             ILayerManager lm1 = new DomainLayerManager(this.FileEntity);
-            //2. 基础设施
-            lm1.CreateLayer();
             ILayerManager lm2 = new FrameworkCoreManager(this.FileEntity);
-            lm2.CreateLayer();
-            if (APP.Configuration.UseExtraApplication)
+            ILayerManager lm3 = new ApplicationLayerManager(this.FileEntity);
+            ILayerManager lm4 = new ExtraApplicationLayerManager(this.FileEntity);
+            //ILayerManager lm5 = new ContractsManager(this.FileEntity); // 这个Layer 已经处理了生成额外的还是非额外的应用服务
+
+            // 处理基础结构（首次访问）
+            if (APP.Configuration.IsFirst)
             {
-                ILayerManager lm4 = new ExtraApplicationLayerManager(this.FileEntity);
-                lm4.CreateLayer();
+                // 创建基础结构，目录结构，常量文件等
+                lm1.CreateBaseLayer();
+                lm2.CreateBaseLayer();
+                //lm3.CreateBaseLayer();
+                //lm4.CreateBaseLayer();
+                this.ContractsManager.CreateBaseLayer();
             }
-            else {
-                ILayerManager lm3 = new ApplicationLayerManager(this.FileEntity);
-                lm3.CreateLayer();
-            }
-            MessageBox.Show("生成操作完成！","注意", MessageBoxButton.OK, MessageBoxImage.Information);
+            // 创建领域层
+            lm1.CreateLayer();
+            // 创建基础设施层
+            lm2.CreateLayer();
+            // 创建应用服务
+            this.ContractsManager.CreateLayer();
+
+            MessageBox.Show("生成操作完成！", "注意", MessageBoxButton.OK, MessageBoxImage.Information);
             this.Close();
         }
 

@@ -33,6 +33,17 @@ namespace Faker.AssistTools.Layers
         }
 
         /// <summary>
+        /// 创建基础层
+        /// </summary>
+        public void CreateBaseLayer()
+        {
+            // 先创建对应的目录
+            this.CreateDirectory();
+            // 创建需要的基础对象
+            //this.Create_Base_Files();
+        }
+
+        /// <summary>
         /// 输出层文件对象
         /// </summary>
         public void OutputLayer()
@@ -114,13 +125,13 @@ namespace Faker.AssistTools.Layers
             };
 
             path = Path.Combine(this.FileEntity.Application.BaseDirPath, "Dtos", "PagedAndFilteredInputDto.cs");
-            this.CreateFile(path, "PagedAndFilteredInputDto.vm", model);
+            this.CreateLayerFile(path, "PagedAndFilteredInputDto.vm", model);
             path = Path.Combine(this.FileEntity.Application.BaseDirPath, "Dtos", "PagedAndSortedInputDto.cs");
-            this.CreateFile(path, "PagedAndSortedInputDto.vm", model);
+            this.CreateLayerFile(path, "PagedAndSortedInputDto.vm", model);
             path = Path.Combine(this.FileEntity.Application.BaseDirPath, "Dtos", "PagedInputDto.cs");
-            this.CreateFile(path, "PagedInputDto.vm", model);
+            this.CreateLayerFile(path, "PagedInputDto.vm", model);
             path = Path.Combine(this.FileEntity.Application.BaseDirPath, "Dtos", "PagedSortedAndFilteredInputDto.cs");
-            this.CreateFile(path, "PagedSortedAndFilteredInputDto.vm", model);
+            this.CreateLayerFile(path, "PagedSortedAndFilteredInputDto.vm", model);
         }
 
         /// <summary>
@@ -138,7 +149,8 @@ namespace Faker.AssistTools.Layers
                 EntityName = FileEntity.Name, // 实体类型名称
                 List = FileEntity.Fields,
                 InheritDto = FileEntity.ClassEntity.InheritDto,
-                InheritType = FileEntity.ClassEntity.InheritType
+                InheritType = FileEntity.ClassEntity.InheritType,
+                SolutionName = FileEntity.Solution.Name,
             };
 
             fileName = string.Format("{0}ListDto.cs", FileEntity.Name);
@@ -162,6 +174,7 @@ namespace Faker.AssistTools.Layers
                 List = FileEntity.Fields,
                 InheritDto = FileEntity.ClassEntity.InheritDto,
                 InheritType = FileEntity.ClassEntity.InheritType,
+                SolutionName = FileEntity.Solution.Name,
             };
 
             fileName = string.Format("{0}EditDto.cs", FileEntity.Name);
@@ -218,7 +231,7 @@ namespace Faker.AssistTools.Layers
             
             fileName = string.Format("{0}DtoAutoMapper.cs", FileEntity.Name);
             path = Path.Combine(this.FileEntity.Application.DomainPath, "Mapper", fileName);
-            this.CreateFile(path, "DtoAutoMapper.vm", model);
+            this.CreateLayerFile(path, "DtoAutoMapper.vm", model);
         }
 
         /// <summary>

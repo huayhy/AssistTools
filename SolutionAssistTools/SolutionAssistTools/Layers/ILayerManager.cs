@@ -17,6 +17,11 @@ namespace Faker.AssistTools.Layers
         void CreateLayer();
 
         /// <summary>
+        /// 创建层
+        /// </summary>
+        void CreateBaseLayer();
+
+        /// <summary>
         /// 输出层目录
         /// </summary>
         void OutputLayer();

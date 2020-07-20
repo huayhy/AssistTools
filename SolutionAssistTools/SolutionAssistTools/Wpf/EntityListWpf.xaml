@@ -104,10 +104,11 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <Button x:Name="btnSubmit" Content="开始生成" HorizontalAlignment="Left" Height="36" Margin="836,0,0,-45" VerticalAlignment="Bottom" Width="75" Grid.Row="1" Click="btnSubmit_Click"/>
+        <Button x:Name="btnSubmit" Content="开始生成(标准模式)" HorizontalAlignment="Left" Height="36" Margin="794,0,0,-45" VerticalAlignment="Bottom" Width="120" Grid.Row="1" Click="btnSubmit_Click"/>
         <Button x:Name="butCancal" Content="取消" HorizontalAlignment="Left" Height="36" Margin="919,0,0,-45" VerticalAlignment="Bottom" Width="75" Grid.Row="1" Click="butCancal_Click"/>
         <Button x:Name="butPre" Content="上一步" HorizontalAlignment="Left" Height="36" Margin="10,0,0,-45" VerticalAlignment="Bottom" Width="75" Grid.Row="1" Click="butPre_Click"/>
         <Line Stretch="Fill" Stroke="Black" X2="1" VerticalAlignment="Bottom" Grid.Row="1" Margin="0,0,0,-67"/>
-        
+        <Button x:Name="btnNewSubmit" Content="开始生成(扩展模式)" HorizontalAlignment="Left" Height="36" Margin="670,0,0,-45" VerticalAlignment="Bottom" Width="120" Grid.Row="1" Click="btnNewSubmit_Click" />
+
     </Grid>
 </Window>

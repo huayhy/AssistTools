@@ -25,14 +25,20 @@ namespace Faker.AssistTools.Layers
         public void CreateLayer()
         {
             // 这里需要给领域服务层创建所需要的文件目录和数据准备工作
-            this.createDirectory();
-
-            // 需要添加一个首次判断
-            if (APP.Configuration.IsFirst)
-                this.Create_Base_Files();
-
+            this.CreateDirectory();
             // 当前选中的基础设置需要一个文件 EntityMapper 文件
             this.createFiles();
+        }
+
+        /// <summary>
+        /// 创建基础层
+        /// </summary>
+        public void CreateBaseLayer()
+        {
+            // 先创建对应的目录
+            this.CreateDirectory();
+            // 创建需要的基础对象
+            this.Create_Base_Files();
         }
 
         /// <summary>
@@ -46,7 +52,7 @@ namespace Faker.AssistTools.Layers
         /// <summary>
         /// 领域层所需要的目录
         /// </summary>
-        protected void createDirectory()
+        protected void CreateDirectory()
         {
             // 创建EntityMapper目录
             this.CreateDirectory(this.FileEntity.FrameworkCore.BaseDirPath, "EntityMapper");

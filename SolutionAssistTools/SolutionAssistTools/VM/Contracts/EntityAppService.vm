@@ -1,0 +1,257 @@
+﻿#set($NameSpace=$model.NameSpace)
+#set($SolutionName=$model.SolutionName)
+#set($EntityName=$model.EntityName)
+#set($SolutionTxt=$model.SolutionTxt)
+#set($BaseName=$model.SolutionTxt)
+#set($List=$model.List)
+#set($InheritType=$model.InheritType)
+#set($ProjectName=$model.ProjectName)
+#set($ClassName=$model.ClassName)
+using Abp.Application.Services.Dto;
+using Abp.Authorization;
+using Abp.AutoMapper;
+using Abp.Linq.Extensions;
+using Abp.Extensions;
+using Abp.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Linq.Dynamic.Core;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using ${ProjectName};
+using ${SolutionName};
+using ${NameSpace};
+using ${NameSpace}.DomainService;
+using ${model.NameSpace}.Dtos;
+
+
+using ${SolutionName}.Authorization;
+
+namespace ${NameSpace}
+{
+	/// <summary>
+    /// 【扩展模块】  <br/>
+    /// 【功能描述】  ：XXX 模块<br/>
+    /// 【创建日期】  ：2020.05.21 <br/>
+    /// 【开发人员】  ：static残影<br/>
+    ///</summary>
+    [ApiExplorerSettings(GroupName = "Manager", IgnoreApi = false)]
+	public class ${EntityName}AppService : ${ClassName}ServiceBase, I${EntityName}AppService
+	{
+		/// <summary>
+		///【${EntityName}】仓储层
+		/// </summary>
+		private readonly IRepository<${EntityName}, ${InheritType}>	_${EntityName.ToLower()}Repository;
+
+		/// <summary>
+		///【${EntityName}】领域服务
+		/// </summary>
+		private readonly I${EntityName}Manager _${EntityName.ToLower()}Manager;
+		
+		public ${EntityName}AppService(
+			IRepository<${EntityName}, ${InheritType}>  ${EntityName.ToLower()}Repository,
+			I${EntityName}Manager ${EntityName.ToLower()}Manager
+        )
+        {
+			_${EntityName.ToLower()}Repository = ${EntityName.ToLower()}Repository;
+			_${EntityName.ToLower()}Manager=${EntityName.ToLower()}Manager;
+        }
+		
+        #region -------------------------------------------------辅助工具生成---------------------------------------------- 
+		
+		/// <summary>
+        ///【${EntityName}】获取的分页列表信息
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize(${EntityName}Permissions.Node)]
+        public async Task<PagedResultDto<${EntityName}ListDto>> GetPaged(Get${EntityName}sInput input)
+		{
+			var query = _${EntityName.ToLower()}Repository.GetAll()
+#foreach($item in $List)##
+#if($item.TypeName=="string")##
+                            //模糊搜索 ${item.CName}
+                          .WhereIf(!input.FilterText.IsNullOrWhiteSpace(), a => a.${item.Name}.Contains(input.FilterText))                                                                                      
+#end##                           
+#end## 
+			;
+			// TODO:根据传入的参数添加过滤条件
+
+			var count = await query.CountAsync();
+
+			var entityList = await query
+					.OrderBy(input.Sorting).AsNoTracking()
+					.PageBy(input)
+					.ToListAsync();
+
+			var entityListDtos = ObjectMapper.Map<List<${EntityName}ListDto>>(entityList);
+
+			return new PagedResultDto<${EntityName}ListDto>(count,entityListDtos);
+		}
+
+		/// <summary>
+		///【${EntityName}】通过指定id获取MemberListDto信息
+		/// </summary>
+		[AbpAuthorize(${EntityName}Permissions.Node)]
+		public async Task<${EntityName}ListDto> GetById(EntityDto<${InheritType}> input)
+		{
+			var entity = await _${EntityName.ToLower()}Repository.GetAsync(input.Id);
+
+			var dto = ObjectMapper.Map<${EntityName}ListDto>(entity);
+			return dto;
+ 		}
+
+#if($InheritType == "string")##
+		/// <summary>
+		///【Company】 获取编辑
+		/// </summary>
+		/// <param name="input"></param>
+		/// <returns></returns>
+		[AbpAuthorize(${EntityName}Permissions.Node)]
+		public async Task<Get${EntityName}ForEditOutput> GetForEdit(EntityDto<${InheritType}> input)
+		{
+			var output = new Get${EntityName}ForEditOutput();
+			${EntityName}EditDto editDto;
+			
+			if (!string.IsNullOrEmpty(input.Id))
+			{
+				var entity = await _${EntityName.ToLower()}Repository.GetAsync(input.Id);
+				editDto = ObjectMapper.Map<${EntityName}EditDto>(entity);
+			}
+			else
+			{
+				editDto = new ${EntityName}EditDto();
+			}
+            output.${EntityName} = editDto;
+			return output;
+		}
+#else##
+		/// <summary>
+		///【${EntityName}】 获取编辑
+		/// </summary>
+		/// <param name="input"></param>
+		/// <returns></returns>
+		[AbpAuthorize(${EntityName}Permissions.Node)]
+		public async Task<Get${EntityName}ForEditOutput> GetForEdit(NullableIdDto<${InheritType}> input)
+		{
+			var output = new Get${EntityName}ForEditOutput();
+			${EntityName}EditDto editDto;
+
+			if (input.Id.HasValue)
+			{
+				var entity = await _${EntityName.ToLower()}Repository.GetAsync(input.Id.Value);
+				editDto = ObjectMapper.Map<${EntityName}EditDto>(entity);
+			}
+			else
+			{
+				editDto = new ${EntityName}EditDto();
+			}
+            output.${EntityName} = editDto;
+			return output;
+		}
+#end##
+#if($InheritType == "string")##
+		/// <summary>
+		///【${EntityName}】 添加或者修改的公共方法
+		/// </summary>
+		/// <param name="input"></param>
+		/// <returns></returns>
+		[AbpAuthorize(${EntityName}Permissions.Node)]
+		public async Task CreateOrUpdate(CreateOrUpdate${EntityName}Input input)
+		{
+			if (!string.IsNullOrEmpty(input.${EntityName}.Id))
+			{
+				await Update(input.${EntityName});
+			}
+			else
+			{
+				await Create(input.${EntityName});
+			}
+		}
+#else##
+		/// <summary>
+		///【${EntityName}】 添加或者修改的公共方法
+		/// </summary>
+		/// <param name="input"></param>
+		/// <returns></returns>
+		[AbpAuthorize(${EntityName}Permissions.Node)]
+		public async Task CreateOrUpdate(CreateOrUpdate${EntityName}Input input)
+		{
+			
+			if (input.${EntityName}.Id.HasValue)
+			{
+				await Update(input.${EntityName});
+			}
+			else
+			{
+				await Create(input.${EntityName});
+			}
+		}
+#end##
+		/// <summary>
+		///【${EntityName}】新增
+		/// </summary>
+		[AbpAuthorize(${EntityName}Permissions.Node)]
+		protected virtual async Task<${EntityName}EditDto> Create(${EntityName}EditDto input)
+		{
+			//TODO:新增前的逻辑判断，是否允许新增
+
+            var entity = ObjectMapper.Map<${EntityName}>(input);
+            //调用领域服务
+            entity = await _${EntityName.ToLower()}Manager.CreateAsync(entity);
+
+            var dto=ObjectMapper.Map<${EntityName}EditDto>(entity);
+            return dto;
+		}
+
+		/// <summary>
+		///【${EntityName}】编辑
+		/// </summary>
+		[AbpAuthorize(${EntityName}Permissions.Node)]
+		protected virtual async Task Update(${EntityName}EditDto input)
+		{
+			//TODO:更新前的逻辑判断，是否允许更新
+#if($InheritType == "string")##
+			var key =  input.Id;
+#else##
+			var key =  input.Id.Value;
+#end##
+			var entity = await _${EntityName.ToLower()}Repository.GetAsync(key);
+			//  input.MapTo(entity);
+			//将input属性的值赋值到entity中
+            ObjectMapper.Map(input, entity);
+            await _${EntityName.ToLower()}Manager.UpdateAsync(entity);
+		}
+
+		/// <summary>
+		///【${EntityName}】删除信息
+		/// </summary>
+		/// <param name="input"></param>
+		/// <returns></returns>
+		[AbpAuthorize(${EntityName}Permissions.Node)]
+		public async Task Delete(EntityDto<${InheritType}> input)
+		{
+			//TODO:删除前的逻辑判断，是否允许删除
+            await _${EntityName.ToLower()}Manager.DeleteAsync(input.Id);
+		}
+
+		/// <summary>
+		///【${EntityName}】 批量删除Member的方法
+		/// </summary>
+		[AbpAuthorize(${EntityName}Permissions.Node)]
+		public async Task BatchDelete(List<${InheritType}> input)
+		{
+			// TODO:批量删除前的逻辑判断，是否允许删除
+            await _${EntityName.ToLower()}Manager.BatchDelete(input);
+		}
+
+        #endregion
+
+        #region -------------------------------------------------用户自定义------------------------------------------------
+		/*请在此扩展应用服务实现*/
+		#endregion
+	}
+}

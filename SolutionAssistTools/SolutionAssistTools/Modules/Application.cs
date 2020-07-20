@@ -19,5 +19,7 @@ namespace Faker.AssistTools.Modules
         /// 应用服务层的实体路径和领域服务层相似
         /// </summary>
         public string DomainPath { get; set; }
+
+        
     }
 }

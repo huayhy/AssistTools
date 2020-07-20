@@ -1,0 +1,13 @@
+﻿#set($SolutionName=$model.SolutionName)
+
+#if($SolutionName != "")##
+using ${SolutionName};
+#end## 
+
+namespace ${SolutionName}.Dtos
+{
+    public class PagedSortedAndFilteredInputDto : PagedAndSortedInputDto
+    {
+        public string FilterText { get; set; }
+    }
+}

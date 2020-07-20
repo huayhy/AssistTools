@@ -30,9 +30,6 @@ namespace Faker.AssistTools.Layers
 
         public BaseLayerManager()
         {
-
-            
-
             this.VMFolder = string.Format(@"{0}\\VM\\", WorkFolder); // 默认目录为VM
             VelocityEngine = new VelocityEngine();
             ExtendedProperties props = new ExtendedProperties(); //创建模版使用的扩展属性
@@ -53,6 +50,22 @@ namespace Faker.AssistTools.Layers
             if (!Directory.Exists(DomainServiceDir))
             {
                 Directory.CreateDirectory(DomainServiceDir);
+            }
+        }
+
+        /// <summary>
+        /// 创建目录
+        /// </summary>
+        /// <param name="_BaseDirPath">基础目录</param>
+        /// <param name="_DirName">需要新建的目录路径</param>
+        protected void CreateDirectory(string _BaseDirPath)
+        {
+            //1. 创建领域实体目录 DomainService 在当前实体目录下创建
+            //var DomainServiceDir = string.Format("{0}", _BaseDirPath);
+            // 不存在这个目录则创建
+            if (!Directory.Exists(_BaseDirPath))
+            {
+                Directory.CreateDirectory(_BaseDirPath);
             }
         }
 
@@ -89,6 +102,39 @@ namespace Faker.AssistTools.Layers
                     File.WriteAllText(writeFilePath, result);
                 }
                 
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 写入文件（存在的话坚决不覆盖）
+        /// </summary>
+        /// <param name="writeFilePath">文件路径</param>
+        /// <param name="vmName">VM模板全名称</param>
+        /// <param name="model">需要实体</param>
+        /// <param name="IsCover">是否覆盖文件</param>
+        /// <returns>写入的字符串</returns>
+        protected virtual string CreateLayerFile(string writeFilePath, string vmName, object model, bool IsCover = false)
+        {
+
+            // 获取模板并且设置参数
+            Template template = VelocityEngine.GetTemplate(vmName);
+            VelocityContext context = new VelocityContext();
+            context.Put("people", "华威");
+            context.Put("model", model);
+
+            StringWriter writer = new StringWriter();
+            template.Merge(context, writer);
+            var result = writer.GetStringBuilder().ToString();
+         
+            // 文件如果不存在
+            if (!File.Exists(writeFilePath))
+            {
+                File.WriteAllText(writeFilePath, result);
+            }
+            else if (IsCover) // 同意重写才会重写
+            {
+                File.WriteAllText(writeFilePath, result);
             }
             return result;
         }

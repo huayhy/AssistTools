@@ -52,6 +52,7 @@
     <Compile Include="Helper\AssistFolderHelper.cs" />
     <Compile Include="Helper\AssistHelper.cs" />
     <Compile Include="Helper\GenerateHelper.cs" />
+    <Compile Include="Layers\ContractsManager.cs" />
     <Compile Include="Layers\ExtraApplicationLayerManager.cs" />
     <Compile Include="Layers\ApplicationLayerManager.cs" />
     <Compile Include="Layers\BaseLayerManager.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="Layers\FrameworkCoreManager.cs" />
     <Compile Include="Layers\ILayerManager.cs" />
     <Compile Include="Modules\APP.cs" />
+    <Compile Include="Modules\Contracts.cs" />
     <Compile Include="Modules\ExtraApplication.cs" />
     <Compile Include="Modules\Application.cs" />
     <Compile Include="Modules\BaseEntity.cs" />
@@ -202,6 +204,78 @@
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="VM\ExtraServiceBase.vm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="VM\Contracts\ContractsApplicationModule.vm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="VM\Contracts\PagedAndFilteredInputDto.vm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="VM\Contracts\PagedAndSortedInputDto.vm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="VM\Contracts\PagedInputDto.vm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="VM\Contracts\PagedSortedAndFilteredInputDto.vm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="VM\Contracts\EditDto.vm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="VM\Contracts\GetEntityInput.vm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="VM\Contracts\GetEntityForEditOutput.vm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="VM\Contracts\CreateOrUpdateEntityInput.vm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="VM\Contracts\ListDto.vm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="VM\Contracts\DtoAutoMapper.vm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="VM\Contracts\IEntityAppService.vm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="VM\Contracts\EntityAppService.vm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="VM\Contracts\ExtraApplicationModule.vm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="VM\Contracts\ExtraServiceBase.vm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="VM\Contracts\Readme.vm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="VM\Contracts\ReadmeContracts.vm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="VM\Contracts\ReadmeExtraApplication.vm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>

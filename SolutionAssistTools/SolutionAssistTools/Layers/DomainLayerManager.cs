@@ -48,17 +48,24 @@ namespace Faker.AssistTools.Layers
         public  void CreateLayer()
         {
             // 这里需要给领域服务层创建所需要的文件目录和数据准备工作
-            this.createDirectory();
-
-            // 需要添加一个首次判断
-            if (APP.Configuration.IsFirst)
-                this.Create_Base_Files();
+            this.CreateDirectory();
 
             // 创建领域服务所需要的文件
             if (APP.Configuration.UseDomainService)
             {
                 this.CreateFiles();
             }
+        }
+
+        /// <summary>
+        /// 创建基础层
+        /// </summary>
+        public void CreateBaseLayer()
+        {
+            // 先创建对应的目录
+            this.CreateDirectory();
+            // 创建需要的基础对象
+            this.Create_Base_Files();
         }
 
         /// <summary>
@@ -72,7 +79,7 @@ namespace Faker.AssistTools.Layers
         /// <summary>
         /// 领域层所需要的目录
         /// </summary>
-        protected void createDirectory()
+        protected void CreateDirectory()
         {
             //1. 创建领域实体目录 DomainService 在当前实体目录下创建
             var DomainServiceDir = string.Format("{0}\\{1}", FileEntity.CurrentFile.Directory.FullName, this.DomainServiceName);
@@ -96,7 +103,7 @@ namespace Faker.AssistTools.Layers
             // 创建实现类
             this.createManager();
 
-            if (APP.Configuration.UseDomainService)
+            if (APP.Configuration.UseAuthorization)
             {
                 // 创建权限相关
                 this.CreateAuthorization();
@@ -111,7 +118,7 @@ namespace Faker.AssistTools.Layers
         protected void Create_Base_Files() {
 
             // 创建领域服务框架基类
-            this.create_DomainServiceBase();
+            this.Create_DomainServiceBase();
             this.create_ConstBase();
             // 领域服务的 Authorization 目录要添加一个默认权限 AppLtmPermissions.cs
             this.Create_Base_AppLtmPermissions();
@@ -130,13 +137,13 @@ namespace Faker.AssistTools.Layers
         /// <summary>
         /// 基础架构 需要进行首次判断
         /// </summary>
-        protected void create_DomainServiceBase() 
+        protected void Create_DomainServiceBase() 
         {
             // 1. 当前实体的同级目录下创建领域服务文件夹 DomainService
             var fileName = "DomainServiceBase.cs";
-            var filePath = Path.Combine(FileEntity.ProjectCore.BaseDirPath, fileName);
+            var path = Path.Combine(FileEntity.ProjectCore.BaseDirPath, fileName);
             // 获取模板并且设置参数
-            Template template = VelocityEngine.GetTemplate("DomainServiceBase.vm");
+            //Template template = VelocityEngine.GetTemplate("DomainServiceBase.vm");
 
             var strs = FileEntity.Solution.Name.Split('.');
             var bName = string.Empty;
@@ -157,17 +164,19 @@ namespace Faker.AssistTools.Layers
                 BaseName  = bName
             };
 
-            VelocityContext context = new VelocityContext();
-            context.Put("people", "华威");
-            context.Put("model", model);
+            fileName = "DomainServiceBase.cs";
+            path = Path.Combine(this.FileEntity.ProjectCore.BaseDirPath, fileName);
+            this.CreateLayerFile(path, "DomainServiceBase.vm", model);
 
-            StringWriter writer = new StringWriter();
-            template.Merge(context, writer);
-            var result = writer.GetStringBuilder().ToString();
 
-            //2. 内容写入到指定文件
-
-            File.WriteAllText(filePath, result);
+            //VelocityContext context = new VelocityContext();
+            //context.Put("people", "华威");
+            //context.Put("model", model);
+            //StringWriter writer = new StringWriter();
+            //template.Merge(context, writer);
+            //var result = writer.GetStringBuilder().ToString();
+            ////2. 内容写入到指定文件
+            //File.WriteAllText(filePath, result);
         }
 
         /// <summary>
@@ -201,9 +210,9 @@ namespace Faker.AssistTools.Layers
         {
             // 1. 当前实体的同级目录下创建领域服务文件夹 DomainService
             var fileName = "AppCoreConst.cs";
-            var filePath = Path.Combine(FileEntity.ProjectCore.BaseDirPath, fileName);
+            var path = Path.Combine(FileEntity.ProjectCore.BaseDirPath, fileName);
             // 获取模板并且设置参数
-            Template template = VelocityEngine.GetTemplate("DomainConst.vm");
+            //Template template = VelocityEngine.GetTemplate("DomainConst.vm");
 
             var model = new
             {
@@ -214,17 +223,21 @@ namespace Faker.AssistTools.Layers
                 //BaseName = bName
             };
 
-            VelocityContext context = new VelocityContext();
-            context.Put("people", "华威");
-            context.Put("model", model);
+            fileName = "AppCoreConst.cs";
+            path = Path.Combine(FileEntity.ProjectCore.BaseDirPath, fileName);
+            this.CreateFile(path, "DomainConst.vm", model);
 
-            StringWriter writer = new StringWriter();
-            template.Merge(context, writer);
-            var result = writer.GetStringBuilder().ToString();
+            //VelocityContext context = new VelocityContext();
+            //context.Put("people", "华威");
+            //context.Put("model", model);
 
-            //2. 内容写入到指定文件
+            //StringWriter writer = new StringWriter();
+            //template.Merge(context, writer);
+            //var result = writer.GetStringBuilder().ToString();
 
-            File.WriteAllText(filePath, result);
+            ////2. 内容写入到指定文件
+
+            //File.WriteAllText(filePath, result);
         }
 
         /// <summary>

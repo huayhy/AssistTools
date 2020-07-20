@@ -1,0 +1,68 @@
+﻿#set($NameSpace=$model.NameSpace)
+#set($SolutionName=$model.SolutionName)
+#set($EntityName=$model.EntityName)
+#set($SolutionTxt=$model.SolutionTxt)
+#set($ClassName=$model.ClassName)
+#set($ProjectName=$model.ProjectName)
+
+# SOEI.Faker ABP 开发辅助工具操作手册
+# 感谢 (ABP Code Power Tools ) 开发作者和52ABP的大力推广（保留52ABP 和 ABP Code Power Tools 介绍推广）
+# 代码生成器(ABP Code Power Tools )使用说明文档
+# 目前陕西西安地区ABP的使用业内渐渐多起来，希望大家一同努力进行宣传和团队建设
+
+**松毅软件官方网站：[http://www.soei.com.cn](http://www.soei.com.cn)**
+**52ABP官方网站：[http://www.52abp.com](http://www.52abp.com)**
+
+## 辅助工具说明
+
+- 团队采用ABP样板工程进行项目开发工作，之前使用ABP Code Power Tools和自己一些开发习惯问题，着手开发一套自己的插件配合前端，
+本次开发由 松毅软件（http://www.soei.com.cn/），质量架构部提供支持，如有任何问题请联系Email:  huayhy@126.com
+
+编码 SOEI软件,质量架构部，华威
+
+FakerSolution  ABP 样板项目 [Github地址](https://github.com/huayhy/FakerSolution)
+
+
+# 项目说明:  ${ProjectName}
+
+
+### 1 .扩展了应用服务   
+
+我们扩展了新的应用服务请将下面代码辅助到需要使用的模块 moduleName 为API模块名称
+```csharp
+Configuration.Modules.AbpAspNetCore().CreateControllersForAppServices(typeof(${ClassName}Module).Assembly, moduleName: "Manager", useConventionalHttpVerbs: true);
+
+```
+
+通常轻纺复制以上代码到如下两个位置 
+
+${SolutionName}.Web.Core 层下的  ${SolutionTxt}WebCoreModule PreInitialize 方法中
+
+如果您有额外的服务Host层
+
+${SolutionName}.Web.Host  层下的 ${SolutionTxt}WebHostModule 该层可以自己创建 PreInitialize 方法中
+
+示例 1：$SolutionTxt
+
+public override void PreInitialize()
+{
+      base.PreInitialize();
+
+      Configuration.Modules.AbpAspNetCore().CreateControllersForAppServices(typeof(${ClassName}Module).Assembly, moduleName: "Manager", useConventionalHttpVerbs: true);
+}
+
+
+
+# 完整项目结构如下：
+
+serv
+   -- Service.Client.Application				   扩展应用服务层（自定义创建） 注意放入serv目录 和 src 同级
+ src
+   -- ${SolutionName}.Application				   应用服务层 
+   -- ${SolutionName}.Application.Contracts        服务合约层
+   -- ${SolutionName}.Core                         领域层
+   -- ${SolutionName}.EntityFrameworkCore          基础设施层
+   -- ${SolutionName}.Migrator                     迁移工具
+   -- ${SolutionName}.Web.Core                     
+   -- ${SolutionName}.Web.Host                     主要服务
+   -- ${SolutionName}.Web.Client                   其他服务

@@ -57,6 +57,11 @@ namespace Faker.AssistTools.Modules
         /// </summary>
         public ICollection<FiledEntity> Fields { get; set; }
 
+        /// <summary>
+        /// 内容层
+        /// </summary>
+        public Contracts Contracts { get; set; }
+
         public FileEntity (){
 
             this.Solution = new Solution();
@@ -65,6 +70,7 @@ namespace Faker.AssistTools.Modules
             this.ProjectCore = new ProjectCore();
             this.ClassEntity = new ClassEntity();
             this.ExtraApplication = new ExtraApplication();
+            this.Contracts = new Contracts();
         }
 
         /// <summary>

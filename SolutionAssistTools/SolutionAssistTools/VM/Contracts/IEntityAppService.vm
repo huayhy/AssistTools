@@ -1,0 +1,80 @@
+﻿#set($NameSpace=$model.NameSpace)
+#set($SolutionName=$model.SolutionName)
+#set($EntityName=$model.EntityName)
+#set($SolutionTxt=$model.SolutionTxt)
+#set($BaseName=$model.SolutionTxt)
+#set($InheritType=$model.InheritType)
+
+using System;
+using Abp.Runtime.Validation;
+using Abp.Application.Services;
+using Abp.Application.Services.Dto;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+
+using ${SolutionName}.Dtos;
+using ${NameSpace};
+using ${model.NameSpace}.Dtos;
+
+namespace ${NameSpace}
+{
+	public interface I${EntityName}AppService : IApplicationService
+	{
+        #region -------------------------------------------------辅助工具生成---------------------------------------------- 
+		/// <summary>
+		/// 获取的分页列表集合
+		///</summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<PagedResultDto<${EntityName}ListDto>> GetPaged(Get${EntityName}sInput input);
+
+
+		/// <summary>
+		/// 通过指定id获取ListDto信息
+		/// </summary>
+		Task<${EntityName}ListDto> GetById(EntityDto<${model.InheritType}> input);
+
+#if($model.InheritType == "string")##
+        /// <summary>
+        /// 返回实体的EditDto
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<Get${EntityName}ForEditOutput> GetForEdit(EntityDto<${model.InheritType}> input);
+#else##
+        /// <summary>
+        /// 返回实体的EditDto
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<Get${EntityName}ForEditOutput> GetForEdit(NullableIdDto<${model.InheritType}> input);
+#end##
+
+        /// <summary>
+        /// 添加或者修改的公共方法
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task CreateOrUpdate(CreateOrUpdate${EntityName}Input input);
+
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task Delete(EntityDto<${model.InheritType}> input);
+
+		
+        /// <summary>
+        /// 批量删除
+        /// </summary>
+        Task BatchDelete(List<${model.InheritType}> input);
+
+        #endregion
+
+        #region -------------------------------------------------用户自定义------------------------------------------------
+		/*请在此扩展应用服务接口*/
+		#endregion
+	}
+}

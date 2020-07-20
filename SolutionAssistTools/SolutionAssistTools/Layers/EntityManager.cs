@@ -24,15 +24,24 @@ namespace Faker.AssistTools.Layers
         public void CreateLayer()
         {
             // 只要调用了就会生成一个领域实体目录，请以后吧领域实体都放这里
-            this.createDirectory();
+            this.CreateDirectory();
 
             this.createFiles();
         }
 
         /// <summary>
+        /// 创建基础层
+        /// </summary>
+        public void CreateBaseLayer()
+        {
+            // 先创建对应的目录
+            this.CreateDirectory();
+        }
+
+        /// <summary>
         /// 领域层所需要的目录
         /// </summary>
-        protected void createDirectory()
+        protected void CreateDirectory()
         {
             // 创建 DomainEntities 目录
             this.CreateDirectory(this.FileEntity.ProjectCore.BaseDirPath, "DomainEntities");

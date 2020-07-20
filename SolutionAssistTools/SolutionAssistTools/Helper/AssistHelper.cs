@@ -81,6 +81,11 @@ namespace Faker.AssistTools.Helper
             var dirFrameworkCore = AssistHelper.GetLayerDir(FileEntity.SrcDir, FrameworkCore.Layer);
             FileEntity.FrameworkCore.Name = dirFrameworkCore?.Name;
             FileEntity.FrameworkCore.BaseDirPath = dirFrameworkCore?.FullName;
+            // 应用内容层
+            var dirContracts = AssistHelper.GetLayerDir(FileEntity.SrcDir, Contracts.Layer);
+            FileEntity.Contracts.IsUse = dirContracts != null;
+            FileEntity.Contracts.Name = dirContracts?.Name;
+            FileEntity.Contracts.BaseDirPath = dirContracts?.FullName;
             FileEntity.LoadData();
             return FileEntity;
         }
